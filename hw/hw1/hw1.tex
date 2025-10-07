@@ -1,0 +1,75 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+
+\title{CSE 101 Homework 1}
+\author{Brian Masse, Emily Xie, Kreshiv Chawla}
+\date{October 7, 2025}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+% MARK: Problem 1a
+% problem statement
+\bf{ 1. Following the Algorithm Defined in HW1. Consider the case when \(A[i] + A[j] = V\) for some \(1 \le i < j \le n\). Prove the invariant: If the while loop has not terminated, then \(I \le i < j \le J \) }
+
+% proving the base case
+\-\ \newline
+\-\ \it{
+    i) Prove the base case: (I = 1, J = n, assuming n \(>\) 1.) 
+}
+\-\ \newline
+\-\ \newline
+\textnormal{
+    Given \(1 \le i < j \le n \implies I \le i < j \le J \)
+}
+
+\-\ \newline
+\-\ \textnormal{
+    ii) Prove the general case:
+}
+\-\ \newline
+\-\ \newline
+\textnormal{
+    Assume that after \(x > 1\) iterations, \(I \le i < j \le J\). Show the loop invariant after the \(x + 1\) iteration.
+}
+\-\ \newline
+\-\ \newline
+If \(i = I\) and \(j = J\) \(\implies\)
+
+\-\ \-\ \(A[i] + A[j] = V \implies\) \textnormal{returns True}
+\-\ \newline
+If \(j = J\)
+\-\
+\begin{flalign}
+&\implies I < i\\
+&\implies \textnormal{(By Sorted Array)
+ \( A[I] + A[J] = A[I] + A[j] < V\)}\\
+&\implies I\textnormal{++}\\
+&\implies I \le i < j \le J
+\end{flalign}
+
+\-\ \newline
+If \(i = I\)
+\-\
+\begin{flalign}
+&\implies J > j\\
+&\implies \textnormal{(By Sorted Array)
+ \( A[I] + A[J] = A[i] + A[J] > V\)}\\
+&\implies J\textnormal{- -}\\
+&\implies I \le i < j \le J
+\end{flalign}
+
+\-\ \newline
+Else:
+\-\
+\begin{flalign}
+&\implies J > j \textnormal{ \& } i < I\\
+&\implies \textnormal{ Either I++ or J-- will uphold the loop invariant.}
+\end{flalign}
+
+\end{document}
