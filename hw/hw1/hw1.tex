@@ -5,7 +5,7 @@
 \usepackage[a4paper, total={6in, 9in}]{geometry}
 
 \title{CSE 101 Homework 1}
-\author{Brian Masse, Emily Xie, Kreshiv Chawla}
+\author{Kreshiv Chawla, Brian Masse, Taira Sakamoto, Emily Xie}
 \date{October 7, 2025}
 
 \begin{document}
@@ -13,63 +13,139 @@
 \maketitle
 \newpage
 
-% MARK: Problem 1a
-% problem statement
-\bf{ 1. Following the Algorithm Defined in HW1. Consider the case when \(A[i] + A[j] = V\) for some \(1 \le i < j \le n\). Prove the invariant: If the while loop has not terminated, then \(I \le i < j \le J \) }
+\begin{enumerate}
 
-% proving the base case
-\-\ \newline
-\-\ \it{
-    i) Prove the base case: (I = 1, J = n, assuming n \(>\) 1.) 
-}
-\-\ \newline
-\-\ \newline
-\textnormal{
-    Given \(1 \le i < j \le n \implies I \le i < j \le J \)
-}
+%--------------------- Question 1 ---------------------
+\item
+\begin{enumerate}
+  \item 
+  \[
+    \frac{2^{n/2}}{2^n} = 2^{-n/2} \xrightarrow[n \to \infty]{} 0.
+  \]
+  Hence, for any constant $c > 0$ and all sufficiently large $n$, 
+  $2^{n/2} < c \, 2^n$. \textbf{False.}
 
-\-\ \newline
-\-\ \textnormal{
-    ii) Prove the general case:
-}
-\-\ \newline
-\-\ \newline
-\textnormal{
-    Assume that after \(x > 1\) iterations, \(I \le i < j \le J\). Show the loop invariant after the \(x + 1\) iteration.
-}
-\-\ \newline
-\-\ \newline
-If \(i = I\) and \(j = J\) \(\implies\)
+  \item
+  \[
+    (n^3 + 2n + 1)^4 
+      = n^{12} \! \left(1 + 2n^{-2} + n^{-3}\right)^4
+      = n^{12} \! \left(1 + O(n^{-2})\right),
+  \]
+  \[
+    (n^4 + 4n^2)^3
+      = n^{12} \! \left(1 + 4n^{-2}\right)^3
+      = n^{12} \! \left(1 + O(n^{-2})\right).
+  \]
+  Therefore,
+  \[
+    \frac{(n^3 + 2n + 1)^4}{(n^4 + 4n^2)^3}
+      \xrightarrow[n \to \infty]{} 1 \neq 0.
+  \]
+  Not little-$o$. \textbf{False.}
 
-\-\ \-\ \(A[i] + A[j] = V \implies\) \textnormal{returns True}
-\-\ \newline
-If \(j = J\)
-\-\
-\begin{flalign}
-&\implies I < i\\
-&\implies \textnormal{(By Sorted Array)
- \( A[I] + A[J] = A[I] + A[j] < V\)}\\
-&\implies I\textnormal{++}\\
-&\implies I \le i < j \le J
-\end{flalign}
+  \item
+  \[
+    \log\!\left(n^{10}\right) - \log(\log n)
+      = 10 \log n - \log \log n.
+  \]
+  Hence $\Theta(\log n)$. \textbf{True.}
 
-\-\ \newline
-If \(i = I\)
-\-\
-\begin{flalign}
-&\implies J > j\\
-&\implies \textnormal{(By Sorted Array)
- \( A[I] + A[J] = A[i] + A[J] > V\)}\\
-&\implies J\textnormal{- -}\\
-&\implies I \le i < j \le J
-\end{flalign}
+  \item
+  \[
+    \sum_{i=1}^{n} i^{3}
+      = \left(\frac{n(n+1)}{2}\right)^{2}
+      = \frac{n^2 (n+1)^2}{4}
+      = \frac{n^4 + 2n^3 + n^2}{4}.
+  \]
+  \textbf{True.}
 
-\-\ \newline
-Else:
-\-\
-\begin{flalign}
-&\implies J > j \textnormal{ \& } i < I\\
-&\implies \textnormal{ Either I++ or J-- will uphold the loop invariant.}
-\end{flalign}
+  \item
+  \[
+    n! = (n)(n-1)(n-2)\cdots 2 \cdot 1
+      \le n \cdot n \cdot n \cdots n = n^n.
+  \]
+  \textbf{True.}
+\end{enumerate}
+
+%--------------------- Question 2 ---------------------
+\item
+\textbf{Base case.} For $n = 2$,
+\[
+  F_2 = F_{2-1} + F_{2-2} = F_1 + F_0 = 1 + 0 = 1.
+\]
+
+\textbf{Inductive hypothesis.} Assume that the statement about $F_n$
+holds for all integers up to $k$.
+
+\textbf{Inductive step.}
+\[
+  F_{k+1}
+    = F_k + F_{k-1}
+    = (F_{k-1} + F_{k-2}) + F_{k-1}
+    = F_k + F_{k-1},
+\]
+establishing the step.
+
+%--------------------- Question 3 ---------------------
+\item
+\textbf{Base case.} Initially, there are $101$ black marbles (odd). \\[4pt]
+\textbf{Inductive hypothesis.} Assume that after $k$ moves, the number of black marbles has the same parity as it had initially (odd). \\[4pt]
+\textbf{Inductive step.} On move $k{+}1$, one of three things happens:
+\begin{itemize}
+  \item BB: black count changes by $-2$ (parity unchanged).
+  \item RR: black count changes by $0$ (parity unchanged).
+  \item BR: black count changes by $0$ (parity unchanged).
+\end{itemize}
+In every case, the parity of the black count after move $k+1$ equals the parity after move $k$.  
+By the inductive hypothesis, this equals the initial parity.  
+Hence, the claim holds for $k+1$. \qed
+
+%--------------------- Question 4 ---------------------
+\item
+Following the Algorithm Defined in HW1.  
+Consider the case when \( A[i] + A[j] = V \) for some \( 1 \le i < j \le n \).  
+Prove the invariant: If the while loop has not terminated, then \( I \le i < j \le J \).
+
+\begin{enumerate}
+  \item \textbf{Base case:} \( I = 1, J = n \) (assuming \( n > 1 \)).  
+  \[
+    1 \le i < j \le n \implies I \le i < j \le J.
+  \]
+
+  \item \textbf{General case:}  
+  Assume that after \( x > 1 \) iterations, \( I \le i < j \le J \).  
+  Show the loop invariant after the \( x + 1 \)-th iteration.
+
+  \begin{description}
+    \item[Case 1:] \( i = I \) and \( j = J \)
+    \[
+      A[i] + A[j] = V \implies \textnormal{returns True.}
+    \]
+
+    \item[Case 2:] \( j = J \)
+    \begin{flalign}
+      & I < i, \\
+      & \textnormal{By sorted array: } A[I] + A[J] = A[I] + A[j] < V, \\
+      & I \textnormal{++}, \\
+      & I \le i < j \le J.
+    \end{flalign}
+
+    \item[Case 3:] \( i = I \)
+    \begin{flalign}
+      & J > j, \\
+      & \textnormal{By sorted array: } A[I] + A[J] = A[i] + A[J] > V, \\
+      & J \textnormal{--}, \\
+      & I \le i < j \le J.
+    \end{flalign}
+
+    \item[Case 4:] Else
+    \begin{flalign}
+      & J > j \textnormal{ and } i < I, \\
+      & \textnormal{Either } I++ \textnormal{ or } J-- \textnormal{ will uphold the loop invariant.}
+    \end{flalign}
+  \end{description}
+\end{enumerate}
+
+\end{enumerate}
 
 \end{document}
