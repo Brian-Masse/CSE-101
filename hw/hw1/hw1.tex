@@ -145,7 +145,40 @@ Prove the invariant: If the while loop has not terminated, then \( I \le i < j \
     \end{flalign}
   \end{description}
 \end{enumerate}
+\item \textit{Algorithm:} 
+\begin{enumerate}
+  \item Initialize $\text{NextLarger}[1..n] \gets n+1$ and an empty stack $S$.
+  \item For $k = 1$ to $n$:
+  \begin{enumerate}
+    \item While $S$ is not empty and $A[S.\text{top}] < A[k]$:
+      \[
+      i \gets S.\text{pop()}; \quad \text{NextLarger}[i] \gets k.
+      \]
+    \item Push $k$ onto $S$.
+  \end{enumerate}
+\end{enumerate}
+Indices left in $S$ have no larger element to their right, so their value remains $n+1$. \medskip
 
+\textit{Proof:}  
+Define invariant $I(k)$: after processing elements $A[1..k]$,
+\begin{enumerate}
+  \item[(a)] The stack $S$ contains indices of a strictly decreasing sequence of $A$-values.
+  \item[(b)] For every $i \le k$ not in $S$, $\text{NextLarger}[i]$ is correctly set.
+  \item[(c)] For every $i$ in $S$, $A[i] > A[t]$ for all $i < t \le k$.
+\end{enumerate}
+\hfill\begin{minipage}{\dimexpr\textwidth-2cm}
+\textit{Base case:} $k=1$ satisfies $I(1)$. \medskip\newline
+\textit{Inductive hypothesis:} Assume $I(k-1)$ holds after processing the first $k-1$ elements. \medskip\newline
+\textit{Inductive step:} When processing $A[k]$, every $i$ popped from $S$ satisfies $A[i] < A[k]$ and, by (c), there was no $t$ with $i < t < k$ and $A[t] > A[i]$. Thus $k$ is the smallest index $> i$ with $A[k] > A[i]$, so $\text{NextLarger}[i] = k$ is correct.  
+After popping, $S$ remains strictly decreasing, and pushing $k$ preserves (a)--(c). Hence $I(k)$ holds. By induction, $I(n)$ holds, so all $\text{NextLarger}[i]$ are correct.\medskip
+\end{minipage}
+
+\textit{Time complexity:}  
+Each index is pushed and popped at most once. All other operations are $O(1)$. Hence, the total time is $O(n)$ and the space is $O(n)$. 
+
+\end{enumerate}
+
+\end{document}
 \end{enumerate}
 
 \end{document}
