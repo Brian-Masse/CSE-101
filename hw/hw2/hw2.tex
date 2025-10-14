@@ -22,6 +22,34 @@
 %--------------------- Question 2 ---------------------
 \newpage
 \item 
+    \textbf{Algorithm.} \newline
+    \begin{algorithm}[H]
+    $count \gets 0$\;
+    \For{each unordered edge $\{u,v\}$ with $A[u][v] = 1$}{
+        $S \gets \{ w \in V : A[u][w]=1 \text{ and } A[v][w]=1 \}$\;
+        $t \gets 0$\;
+        \For{each unordered pair $\{x,y\} \subseteq S$}{
+            \If{$A[x][y] = 1$}{
+                $t \gets t + 1$\;
+            }
+        }
+        $count \gets count + t$\;
+    }
+    \Return $count / 6$\;
+    \end{algorithm}
+    
+    \textbf{Correctness.} \medskip \newline
+    \textit{Base Case:} If all 6 edges are present, there is exactly 1 4-clique. For each edge ($u,v$), the common neighbor set $S$ has the other 2 vertices. Those two vertices are adjacent, so we add 1 for each of the 6 edges. Total count = 6; dividing by 6 gives 1, which is correct. \medskip \newline
+    \textit{Inductive Hypothesis:} Assume the algorithm correctly counts all 4-cliques in any undirected graph with $n=k$ vertices. \medskip \newline
+    \textit{Inductive Step:} Consider a graph $G$ with $k+1$ vertices. Let $v_{k+1}$ be the newly added vertex. We can divide 4-cliques in $G$ into two types:
+    \begin{enumerate}
+        \item 4-cliques not containing $v_{k+1}$: These exist entirely in the subgraph with $k$ vertices. By the inductive hypothesis, the algorithm counts them correctly.
+        \item 4-cliques containing $v_{k+1}$: Suppose $v_{k+1}$ is part of some 4-clique $\{v_{k+1},a,b,c\}$. For each edge among these 4 vertices, the intersection $N(a)\cup N(b)$ includes both $v_{k+1}$ and $c$, and since they are connected, the inner loop adds 1. Each 4-clique contributes 6 such additions overall (once per edge). Thus, each new 4-clique is included and counted 6 times. Dividing the final sum by 6 again gives the correct total number of 4-cliques.
+    \end{enumerate}
+    Therefore, the algorithm correctly counts all 4-cliques in any undirected graph.\medskip
+    
+    \textbf{Time Complexity.} \medskip \newline
+    For each edge $\{u, v\}$, finding $S=N(u)\cup N(v)$ costs $O(|V|)$. Checking all pairs inside $S$ costs $O(|S|^2)$. Summed over all edges, the total time is $O((|V| + |E|)^2)$.
 
 %--------------------- Question 3 ---------------------
 \newpage
