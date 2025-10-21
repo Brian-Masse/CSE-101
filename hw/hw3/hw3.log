@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  20 OCT 2025 19:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  20 OCT 2025 19:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/brianmasse/Developer/school/cse-101/hw/hw2/hw2
-(/Users/brianmasse/Developer/school/cse-101/hw/hw2/hw2.tex
+**/Users/brianmasse/Developer/school/cse-101/hw/hw3/hw3
+(/Users/brianmasse/Developer/school/cse-101/hw/hw3/hw3.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 (/usr/local/texlive/2025basic/texmf-dist/tex/latex/base/article.cls
@@ -210,41 +210,41 @@ File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count294
 \l__pdf_internal_box=\box63
-) (./hw2.aux)
-\openout1 = `hw2.aux'.
+) (./hw3.aux)
+\openout1 = `hw3.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
 * driver: pdftex
-* paper: a4paper
+* paper: letterpaper
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(81.94394pt, 433.62pt, 81.94394pt)
-* v-part:(T,H,B)=(77.84674pt, 650.43pt, 116.77011pt)
-* \paperwidth=597.50787pt
-* \paperheight=845.04684pt
-* \textwidth=433.62pt
-* \textheight=650.43pt
-* \oddsidemargin=9.67395pt
-* \evensidemargin=9.67395pt
-* \topmargin=-31.42325pt
+* h-part:(L,W,R)=(43.36243pt, 527.57014pt, 43.36243pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=527.57014pt
+* \textheight=650.43001pt
+* \oddsidemargin=-28.90756pt
+* \evensidemargin=-28.90756pt
+* \topmargin=-37.0pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=12.0pt
@@ -281,142 +281,38 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (/usr/local/texlive/2025basic/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Overfull \hbox (45.92085pt too wide) in paragraph at lines 16--16
- [][] 
- []
-
-
 
 [1
 
 {/usr/local/texlive/2025basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<src/Q1.png, id=8, 1304.875pt x 907.39pt>
-File: src/Q1.png Graphic file (type png)
-<use src/Q1.png>
-Package pdftex.def Info: src/Q1.png  used on input line 24.
-(pdftex.def)             Requested size: 390.25534pt x 271.37451pt.
 
-
-[2 <./src/Q1.png>]
-Overfull \hbox (29.3747pt too wide) in paragraph at lines 29--43
-[]$ 
- []
-
-
-Overfull \hbox (8.67375pt too wide) in paragraph at lines 51--52
-[]\OT1/cmr/m/n/12 4-cliques con-tain-ing $\OML/cmm/m/it/12 v[]$\OT1/cmr/m/n/12 : Sup-pose $\OML/cmm/m/it/12 v[]$ \OT1/cmr/m/n/12 is part of some 4-clique $\OMS/cmsy/m/n/12 f\OML/cmm/m/it/12 v[]; a; b; c\OMS/cmsy/m/n/12 g$\OT1/cmr/m/n/12 .
- []
-
-
+[2]
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 71--74
 
- []
-
-<src/CSE101 hw2 q3.png, id=21, 874.26625pt x 164.11313pt>
-File: src/CSE101 hw2 q3.png Graphic file (type png)
-<use src/CSE101 hw2 q3.png>
-Package pdftex.def Info: src/CSE101 hw2 q3.png  used on input line 84.
-(pdftex.def)             Requested size: 390.25534pt x 73.25673pt.
-
-Overfull \hbox (11.85973pt too wide) in paragraph at lines 84--85
-[][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 96--98
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 108--109
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 111--112
-
- []
-
-
-
-[4 <./src/CSE101 hw2 q3.png>]
+[4]
 
 [5]
-<src/graph 1.png, id=30, 415.5525pt x 331.7193pt>
-File: src/graph 1.png Graphic file (type png)
-<use src/graph 1.png>
-Package pdftex.def Info: src/graph 1.png  used on input line 135.
-(pdftex.def)             Requested size: 142.26378pt x 113.56255pt.
-<src/graph 2.png, id=31, 411.2163pt x 331.7193pt>
-File: src/graph 2.png Graphic file (type png)
-<use src/graph 2.png>
-Package pdftex.def Info: src/graph 2.png  used on input line 136.
-(pdftex.def)             Requested size: 142.26378pt x 114.76215pt.
-<src/graph 3.png, id=32, 415.5525pt x 331.7193pt>
-File: src/graph 3.png Graphic file (type png)
-<use src/graph 3.png>
-Package pdftex.def Info: src/graph 3.png  used on input line 137.
-(pdftex.def)             Requested size: 142.26378pt x 113.56255pt.
 
-Overfull \hbox (12.53398pt too wide) in paragraph at lines 126--141
-[]\OT1/cmr/bx/n/12 Experiment\OT1/cmr/m/n/12 : Pro-gram-ming lan-guage: Python 3.11.3. Pack-ages: Numpy (1.24.4),
- []
-
-
-Overfull \hbox (6.06357pt too wide) in paragraph at lines 126--141
-\OT1/cmr/m/n/12 book. To im-ple-ment the two al-go-rithms, we wrote two func-tions $\OML/cmm/m/it/12 find[]triangle\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 n\OT1/cmr/m/n/12 )$
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 126--141
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 126--141
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 126--141
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 126--141
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 126--141
-
- []
-
-
-
-[6]
-
-[7 <./src/graph 1.png> <./src/graph 2.png> <./src/graph 3.png>] (./hw2.aux)
+[6] (./hw3.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 4346 strings out of 474662
- 70636 string characters out of 5751110
- 483904 words of memory out of 5000000
- 27362 multiletter control sequences out of 15000+600000
- 564564 words of font info for 56 fonts, out of 8000000 for 9000
+ 4296 strings out of 474662
+ 69445 string characters out of 5751110
+ 478893 words of memory out of 5000000
+ 27313 multiletter control sequences out of 15000+600000
+ 564217 words of font info for 55 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 70i,16n,79p,1077b,475s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on hw2.pdf (7 pages, 573940 bytes).
+ 70i,6n,79p,462b,201s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on hw3.pdf (6 pages, 98609 bytes).
 PDF statistics:
- 83 PDF objects out of 1000 (max. 8388607)
- 46 compressed objects within 1 object stream
+ 63 PDF objects out of 1000 (max. 8388607)
+ 38 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

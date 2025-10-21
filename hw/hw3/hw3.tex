@@ -1,0 +1,111 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage{algorithm2e}
+
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+ \usepackage[left=0.6in, right=0.6in, top=1in, bottom=1in]{geometry}
+% \usepackage[a4paper, total={6in, 9in}]{geometry}
+\usepackage{graphicx}
+
+\title{CSE 101 Homework 3}
+\author{Kreshiv Chawla, Brian Masse, Taira Sakamoto, Emily Xie, Annabelle Coles}
+\date{October 21, 2025}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\begin{enumerate}
+
+% MARK: Question 1
+%--------------------- Question 1 ---------------------
+\item \textbf{Degrees of separation}
+
+In the seven degrees of Kevin Bacon party game, you try to connect the actor Kevin Bacon to a challenge actor by giving a sequence of movies and actors, so that Kevin bacon and the first actor in the list were in the first movie on the list, the first actor and second actor on the list were in the second movie, and so on, and the last actor on the list was the one you were challenged. 
+
+We can make this an algorithmic problem as follows.
+We are given a list of movies, and for each movie, a list of actors that
+appeared in the movie.  There are $M$ movies total, and the total length of all the lists for all movies is $L$. We are given actors $A$ and $B$ and want to find a list of pairs $(movie_1,actor_1),...(movie_k,actor_k=B)$ so that
+both $A$ and $actor_1$ are in $movie_1$, and for
+$i=2...k$, $actor_{i-1}$ and $actor_i$ are
+both in $movie_i$.  We want to make the number of movies $k$ as small as possible.  
+
+Below, you will describe how to use a graph algorithm from class to solve the
+problem.
+\begin{enumerate}
+\item  What graph will you use to solve the problem?  Be sure to specify the set of vertices in your graph, the set of edges, whether the edges are directed or undirected, and what weights edges have, if any.  
+(4 points )
+\item How will you create the graph from the information given?  What format will you use for the graph?  How long does it take to create the graph?
+(2 points)
+\item How many vertices does your graph have, at most? Give this in terms of $M$ and $L$ 
+(2 points)
+\item How many edges does your graph have, at most? Give this in terms of $M$ and $L$ 
+(2 points)
+\item  How do paths in your graph relate to solutions for the degrees of separation problem?  What is the relationship between the length of paths and the number of movies $k$ in a corresponding solution?
+(4 points)
+\item What algorithm from class will you run on the graph?
+Be sure to specify all inputs to this algorithm, and say how you use the results.
+(3 points)
+\item What is the total time complexity of using this algorithm from class to solve the degrees of separation problem?  This should be given in terms of $M$ and $L$.
+(3 points)
+\end{enumerate}
+
+
+% MARK: Question 2
+%--------------------- Question 2 ---------------------
+\-\ \newpage
+\item \textbf{Smallest elements in a heap}
+
+Say you are given a binary min-heap of distinct integers, given as an array $A[1,..n]$ and
+an integer $1 \le k \le n$.  Your goal is to output the $k$ smallest elements stored in the heap.  Give the most efficient algorithm you can for this problem.
+(7 points, clear description of algorithm.  7 points, correctness proof (hint: use a loop invariant.)  6 points, time analysis and efficiency .  (Hint: use a second heap in your algorithm.  My best time is $O(k log k)$.)
+
+
+% MARK: Question 3
+%--------------------- Question 3 ---------------------
+\-\ \newpage
+\item \textbf{Choosing which version of Dijkstra's algorithm to use}
+
+We saw that we could use either an array or a heap to implement the priority queue for Dijkstra's
+algorithm.  For each of the types of graphs below, give the time complexity of Dijkstra's algorithm for both versions in terms of the number of vertices.  Then say which one you would use for that type of graph.  
+(5 points each, 2 for each version, and one for conclusion.)
+
+\begin{enumerate}
+\item A wheel graph, with a directed cycle of legth $n-1$ and a hub with edges
+to and from each of the vertices in the cycle.
+\item A barbell graph, an undirected graph with two complete graphs on $n/2$ vertices each joined by a single edge.
+\item A grid graph, where each vertex $(i,j)$ with $1 \le i,j \le \sqrt{n}$ is
+adjacent to $(i-1,j), (i+1,j), (i,j-1)$ and $(i,j+1)$, unless adding or subtracting 1 takes us out of the range. 
+\item A rook move graph, with vertices as above, but edges between any two vertices with either the same first coordinate or second coordinate. 
+\end{enumerate}
+
+% MARK: Question 4
+%--------------------- Question 4 ---------------------
+\-\ \newpage
+\item \textbf{Paths from a set of vertices}
+
+Say you are given a set $S$ of vertices in a directed graph with non-negative
+edge weights, and a single target vertex $t$.  You want to find the shortest path from some $s \in S$ to $t$.
+Describe how to use or modify an algorithm
+from class to solve this problem efficiently. Be sure to describe exactly how you use or modify that algorithm, relate the correctness of that algorithm to the problem above, and give a time analysis of your entire algorithm in terms of the number of vertices and edges of the input graph.
+
+
+% MARK: Question 5
+%--------------------- Question 5 ---------------------
+\-\ \newpage
+\item \textbf{Dijkstra experiment}
+
+Implement Dijkstra's algorithm in any programming language (using data structures from libraries is OK), and modify
+it to count
+the number of times the decrease-key operation is used (just the number of times, not the total time spent on it.)
+
+Test it by running it on complete simple directed graphs where each edge has a randomly chosen real weight in $[0,1]$.  
+Test it for many sizes of input, preferably  say $|V|=128$, $256$, $512$, $1024$, ....    
+and plot the number of decrease-key operations  as a function of $|V|$. (Using a log-log scale is a good idea).  Does
+this seem to match the theoretical worst-case bound?  Can you think of a reason why it might not?  
+
+\end{enumerate}
+\end{document}
+
