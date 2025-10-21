@@ -4,9 +4,35 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{mathtools}
- \usepackage[left=0.6in, right=0.6in, top=1in, bottom=1in]{geometry}
+\usepackage[left=0.6in, right=0.6in, top=1in, bottom=1in]{geometry}
 % \usepackage[a4paper, total={6in, 9in}]{geometry}
 \usepackage{graphicx}
+
+% for code snippets
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0.5,0.65,0.5}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{code_blue}{rgb}{0.10,0.27,0.92}
+\definecolor{str_red}{rgb}{0.87,0.2,0.14}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{code_blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{str_red},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
 
 \title{CSE 101 Homework 3}
 \author{Kreshiv Chawla, Brian Masse, Taira Sakamoto, Emily Xie, Annabelle Coles}
@@ -181,6 +207,53 @@ Say you are given a set $S$ of vertices in a directed graph with non-negative
 edge weights, and a single target vertex $t$.  You want to find the shortest path from some $s \in S$ to $t$.
 Describe how to use or modify an algorithm
 from class to solve this problem efficiently. Be sure to describe exactly how you use or modify that algorithm, relate the correctness of that algorithm to the problem above, and give a time analysis of your entire algorithm in terms of the number of vertices and edges of the input graph.
+
+\begin{lstlisting}
+def "shortestPath"(s, t):
+    dist: dict[label: int] = []      // create a dictionary for initial distances
+    prev: dict[label: label] = []   // create a dictionary for previous nodes
+
+    for v in S: dist[v] = infinity
+    dist[s] = 0
+
+    F = createHeap(S)               // initialize the min-heap with all verticies, ordered by distance
+
+    while (F not empty):
+        v = F.removeMin()           // pull the vertex with the shortest path, O(logn)
+        
+        for u in neighborhood(v) and u not in F:
+
+            // Use an array to store the location of labels in the min-heap
+            // Such an array makes finding nodes O(1)
+            if F.find(u) > F.find(v) + l(v, u):
+                F.FindAndLower(u, F.find(v) + l(v, u))
+                prev[u] = v
+    
+            if v == t:
+                // Returning the previous allows the calling function to reconstruct
+                // the path from s to t, by following prev[t] until reaching s. 
+                return prev
+\end{lstlisting}
+
+The above function works similar to the 'find minimum distances' implementation of Dijkstra's algorithm from class: Starting from the vertex s, the function searches for the shortest to every other node. Once it reaches t, it returns a dictionary that can be used to reconstruct the path:
+
+\begin{itemize}
+    \item \textbf{Min-Heap: } Min-Heap is used to make the `removeMin` function run in \(O(logn)\) and the `findAndLower` function run in \(O(logn)\) time. Specifically, the `find` function within `findAndLower` is made to run in \(O(1)\) by maintaining an array that maps a vertex to its index within the heap.
+    \item \textbf{Return prev: } Prev is a map between vertexes and the previous vertex in the path from s. 
+\end{itemize}
+
+Time Analysis: 
+\begin{itemize}
+    \item Each vertex is removed once it has been visited, meaning each vertex is visited at most once. 
+    \item 'FindAndLower' is run at most once per edge.
+\end{itemize}
+
+\begin{flalign*}
+    \-\ \-\ \implies\textnormal{time complexity} &\in O( O(removeMin)|V| + O(FindAndLower)|E| )&\\
+    &\in O(logn \cdot(|V| + |E|))&\\
+\end{flalign*}
+
+
 
 
 % MARK: Question 5
