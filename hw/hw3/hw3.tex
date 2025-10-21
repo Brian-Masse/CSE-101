@@ -75,10 +75,101 @@ algorithm.  For each of the types of graphs below, give the time complexity of D
 \begin{enumerate}
 \item A wheel graph, with a directed cycle of legth $n-1$ and a hub with edges
 to and from each of the vertices in the cycle.
+
+\begin{itemize}
+    \item \(|V| = (n-1) + 1 = n\)
+    \item \(|E| = (n-1) + 2(n-1) = 3(n-1) \)
+\end{itemize}
+
+Thus,
+\begin{itemize}
+    \item Array \(\in O(n^2 + 3(n-1)) \in O(n^2)\)
+    \item Min-Heap \(\in O(logn\cdot(4n-3)) \in O(n\cdot logn)\)
+\end{itemize}
+
+Thus, a min-heap is preferable. \newline
+
 \item A barbell graph, an undirected graph with two complete graphs on $n/2$ vertices each joined by a single edge.
+
+\begin{itemize}
+    \item \(|V| = n\)
+    \item \(|E| = 2 \cdot\) (Number of edges in connected graph) + 1
+    \(= 2 \cdot \frac{\frac{n}{2}!}{2! \cdot (\frac{n}{2} - 2)!}
+    \)
+\end{itemize}
+
+Array-implementation time complexity:
+\begin{flalign*}
+    \-\ \-\ &\in O(n^2 + |E|)&\\
+    &\in O(n^2 + \frac{\frac{n}{2}!}{(\frac{n}{2} - 2)!})
+    \in O(n^2 + (\frac{n}{2})(\frac{n}{2} - 1))&\\
+    &\in O(n^2)&
+\end{flalign*}
+
+Min-Heap-implementation time complexity:
+\begin{flalign*}
+    \-\ \-\ &O(log(n)(n + n^2)) \in O(n^2\cdot logn)&
+\end{flalign*}
+
+Thus, the array implementation is preferable \newline
+
+
 \item A grid graph, where each vertex $(i,j)$ with $1 \le i,j \le \sqrt{n}$ is
 adjacent to $(i-1,j), (i+1,j), (i,j-1)$ and $(i,j+1)$, unless adding or subtracting 1 takes us out of the range. 
+
+\begin{itemize}
+    \item \(|V| = n \implies\) width \& height of grid = \(\sqrt{n}\)
+    \item \(|E| \le 4n\)
+\end{itemize}
+
+Array-implementation time complexity:
+\begin{flalign*}
+    \-\ \-\ &\in O(n^2 + 4n)&\\
+    &\in O(n^2)
+\end{flalign*}
+
+Min-Heap-implementation time complexity:
+\begin{flalign*}
+    \-\ \-\ &\in O(log(n)\cdot (n + 4n))&\\
+    &\in O(n \cdot log(n))
+\end{flalign*}
+
+Thus, the min-heap implementation is preferable \newline
+
 \item A rook move graph, with vertices as above, but edges between any two vertices with either the same first coordinate or second coordinate. 
+
+\begin{itemize}
+    \item \(|V| = n \implies \) width \& height \((k) = \sqrt{n}\)
+    \item \(|E|:\)
+\end{itemize}
+
+\emph{Edges in column a given column j: }
+\begin{eqnarray*}
+    &=& (k-1) + (k-2) + ... 1\\
+    &=& \sum_{i = 1}^{k}(k-i) = k^2 - \frac{k(k+1)}{2}\\
+    &=& \frac{n - \sqrt{n}}{2}
+\end{eqnarray*}
+
+\emph{Edges in columns j = 1...\(\sqrt{n}\) (Edges in rows i = 1...\(\sqrt{n}\)):}
+\begin{eqnarray*}
+    &=& \frac{n^\frac{3}{2} - n}{2}\\
+    &\implies& |E| = n^\frac{3}{2} - n 
+\end{eqnarray*}
+
+Array-Implementation time complexity:
+\begin{flalign*}
+    \-\ \-\ &\in O( n^2 + n^\frac{3}{2} - n)&\\
+    &\in O(n^2)
+\end{flalign*}
+
+Min-Heap-Implementation time complexity:
+\begin{flalign*}
+    \-\ \-\ &\in O( logn \cdot (n + n^\frac{3}{2}))&\\
+    &\in O(n^\frac{3}{2} \cdot logn)
+\end{flalign*}
+
+Thus, the min-heap implementation is preferable
+
 \end{enumerate}
 
 % MARK: Question 4
