@@ -91,7 +91,7 @@ an integer $1 \le k \le n$.  Your goal is to output the $k$ smallest elements st
 (7 points, clear description of algorithm.  7 points, correctness proof (hint: use a loop invariant.)  6 points, time analysis and efficiency .  (Hint: use a second heap in your algorithm.  My best time is $O(k log k)$.) \newline
 
 \algrenewcommand{\algorithmiccomment}[1]{\hfill\textcolor{gray}{\# #1}} 
-    \textbf{Algorithm.}
+    \textbf{Algorithm.}x`'
         \begin{algorithmic}
         \State Initialize an empty min-heap $H$
         \State \textbf{push} $(A[1], 1)$ into $H$ \Comment{Store (key, index) pair}
@@ -299,8 +299,66 @@ the number of times the decrease-key operation is used (just the number of times
 
 Test it by running it on complete simple directed graphs where each edge has a randomly chosen real weight in $[0,1]$.  
 Test it for many sizes of input, preferably  say $|V|=128$, $256$, $512$, $1024$, ....    
-and plot the number of decrease-key operations  as a function of $|V|$. (Using a log-log scale is a good idea).  Does
-this seem to match the theoretical worst-case bound?  Can you think of a reason why it might not?  
+and plot the number of decrease-key operations  as a function of $|V|$. (Using a log-log scale is a good idea).  Does this seem to match the theoretical worst-case bound?  Can you think of a reason why it might not?
+
+\begin{lstlisting}
+// adjacencyList stores a list of tuples (weight, label)
+def djikstras(adjacencyList: list[list[tuple[int, int]]] ) -> int:
+
+    vertex_count = len(adjacencyList)
+
+    // Initialize the frontier with the first node (labeled 0) distance 0
+    // And remaining verticies distance infinity
+    // frontier is stored as (distance, label)
+    frontier: list[tuple[int, int]] = [(0, 0)]
+    explored: list[tuple[int, int]] = []
+
+    count = 0
+
+    for i in range(1, vertex_count):
+        frontier.append( (math.inf, i) )
+
+    heapq.heapify(frontier)
+
+    while (len(frontier) != 0):
+        current_vertex = heapq.heappop(frontier)
+        heap_size = len(frontier)
+
+        for edge in adjacencyList[current_vertex[1]]:
+            label = edge[1]
+
+            // find the label in the heap
+            vertex_indicies = [i for i in range(0, heap_size) if frontier[i][1] == label]
+            if len(vertex_indicies) > 0:
+                vertex_index = vertex_indicies[0]
+
+                vertex_distance = frontier[vertex_index][0]
+                current_distance = current_vertex[0]
+                edge_length = edge[0]
+
+                // update the distance of that vertex
+                if vertex_distance > current_distance + edge_length:
+                    frontier[vertex_index] = (current_distance + edge_length, label)
+                    heapq.heapify(frontier)
+                    count += 1
+    
+        explored.append(current_vertex)
+    
+    return count
+\end{lstlisting}
+
+
+\textbf{ Results } \newline
+\includegraphics[width=0.45\textwidth]{src/graph1.png}
+\includegraphics[width=0.45\textwidth]{src/graph2.png}
+
+The actual number of calls to the `reduceKey()` function matches, asymptotically, the theoretical worst case bound. There are, however, consistently less actual calls to the `reduceKey()` function than the theoretical worst case number of calls.
+
+They match asymptotically because the average case and the worst case number of calls of `reduceKey()` are the same using a min heap implementation. Specifically, both are proportional to the number of edges in the graph, \(|E|\) (\(|E| = \frac{|V| \cdot (|V| - 1)}{2}\), for a complete graph). 
+
+In practice, the number of calls is less than the worse-case, maximum numbers of calls, since `reduceKey` is only called when a new shortest path is found, which is not true for every edge.
+
+
 
 \end{enumerate}
 \end{document}
