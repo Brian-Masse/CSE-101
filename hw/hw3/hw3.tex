@@ -80,6 +80,15 @@ Be sure to specify all inputs to this algorithm, and say how you use the results
 (3 points)
 \end{enumerate}
 
+\begin{enumerate}
+\item In graph $G$, the set of vertices will be the list of actors L. There will be L vertices total. Edges connect two vertices if both actors are casted in the same movie. Edges are undirected and non-weighted. 
+\item To create the graph, we will first create all the vertices from the list $L$. Then, iterate through each movie cast and add edges between all vertices, actors in the movie cast. To store the graph, we will use an adjacency matrix. To create the graph it will take $O(L^2)$ because for each vertex (actor) we need to check if is in the same movie as any other actors in list $L$.
+\item Each vertex represents one actor, so for $L$ number of unique actors, there will be $L$ number of vertices.
+\item Each edge represents a a vertex-vertex pair of actors that are in the same movie. Worst case, if all actors are casted in all movies, there will be at most $L^2$ edges, as there will be an edge between all vertices. 
+\item If there are $k$ movies, and there exists a valid path $[A,B]$, the path length is at most $[A, B] \leq k$. 
+\item To find the shortest path $[A,B]$, we will use the Breadth First Search (BFS) algorithm. The inputs are graph $G$, actor name $A$ and actor name $B$. Graph $G$ has already been constructed. From the algorithm, we will append each actor name in the BFS traversal to a list, this will give the actor names in the shortest valid path. 
+\item The total time complexity of BFS is $O(|V| + |E|)$, in the worst case for our inputs, $|V| = O(L)$ and $|E| = O(L^2) $. So total time complexity is $O(L + L^2)) = O(L^2)$
+\end{enumerate}
 
 % MARK: Question 2
 %--------------------- Question 2 ---------------------
