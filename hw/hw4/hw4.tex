@@ -1,0 +1,205 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage[left=0.6in, right=0.6in, top=1in, bottom=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+% \usepackage{changepage}
+\usepackage{xcolor}
+\usepackage{amsmath}
+
+% for code snippets
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0.5,0.65,0.5}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{code_blue}{rgb}{0.10,0.27,0.92}
+\definecolor{str_red}{rgb}{0.87,0.2,0.14}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{code_blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{str_red},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\title{CSE 101 Homework 4}
+\author{Kreshiv Chawla, Brian Masse, Taira Sakamoto, Emily Xie, Annabelle Coles}
+\date{October 31, 2025}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\begin{enumerate}
+
+% MARK: Question 1
+\item \textbf{Maximum consecutive sum}
+
+Here is an algorithm that, given an array
+of integers (not necessarily positive) $A[1..n]$, 
+finds the maximum sum of a consecutive
+subarray, $max_{1 \le I \le J \le n} \sum_{K=I}^{K=J} A[K]$.
+\par
+\begin{enumerate}
+\item Initialize $MaxSumEndingAt[1..n]$.
+\item $MaxSumEndingAt[1]=A[1]$
+\item For $J=2$ to $n$ do:
+\item ~~~~$MaxSumEndingAt[J] = max(A[J], A[J]+MaxSumEndingAt[J-1])$
+\item $MaxConsSum= MaxSumEndingAt[1]$. 
+\item For $J=2$ to $n$ do:
+\item ~~~$MaxConsSum= max(MaxConsSum, MaxSumEndingAt[J])$
+\item Return $MaxConsSum$
+\end{enumerate}
+
+% PART A
+\begin{enumerate}
+\item  Give a mathematical formula for the value stored in $MaxSumEndingAt[J]$.
+
+let \(S_j\) be \(MaxSumEndingAt[J]\). Let \(A_i\) be \(A[i]\)
+
+\[S_j = A_j + max(S_{j-1}, 0) \]
+
+% PART B
+\item Prove that is actually what is stored there as a loop invariant . (10 points)
+
+From the previous question, prove the loop invariant: \(S_j = A_j + max(S_{j-1}, 0) \)
+
+\begin {enumerate}
+\item Base Case: Trivially, \(S_1 = A_1 = A[1]\) \newline 
+\item Loop Invariant: Assume for some \(k, 1<k<n, S_k = MaxSumEndingAt[k]\), show \(S_{k+1}= MaxSumEndingAt[k + 1]\):
+
+\-\ \newline
+During the \(k+1\) iteration, there are 2 possibilities: 
+\begin{enumerate}
+    \item if \(MaxSumEndingAt[k] > 0\):
+    \begin{eqnarray*}
+        &\implies& max(A[k+1], A[k+1] + MaxSumEndingAt[k])\\
+        &=& A[k+1] + MaxSumEndingAt[k] \\
+        &=& A_{k+1} + S_k = A_{k+1} + max(S_k, 0)\\
+        &=& S_{k+1}
+    \end{eqnarray*}
+
+    \item if \(MaxSumEndingAt[k] \le 0\):
+    \begin{eqnarray*}
+        &\implies& max(A[k+1], A[k+1] + MaxSumEndingAt[k]) \\
+        &=& A[k+1] + 0 \\
+        &=& A[k+1] + max(0, MaxSumEndingAt[k]) \\
+        &=& A_{k+1}. max(S_k, 0) \\
+        &=& S_{k+1}
+    \end{eqnarray*}
+\end{enumerate}
+
+\end{enumerate}
+
+% PART C
+\item Use this to prove the algorithm is correct. (5 points)
+
+Based on the loop invariant, after \(i\) iterations, \(S_i\) is the largest consecutive sum ending at \(i\). After n iterations, all \(S_1,..S_n\) are the largest consecutive sums ending at 1...n.
+
+Because the largest consecutive sum must end at some \(i \in 1...n\), max\((S_1,..S_n)\), is the largest consecutive sum in the array. \newline
+
+% PART D
+\item Give a time analysis for this algorithm. (5 points)
+
+Both loops run in \(O(n)\) time. The work in the two loops is both constant time. Thus, the runtime for the entire algorithm is: \(O(2n) \in O(n) \)
+
+
+\end{enumerate}
+
+
+% MARK: Question 2
+\newpage
+\item \textbf{Maximum within sliding window}
+
+You are given an array $A[1..n]$ of integers, and an integer $1 \le k \le n$.
+You wish to compute $MaxInWindow[I]= max_{I \le J \le min(I+k,n)} A[J]$ for all $1 \le I \le n$.  
+By answering the questions below, you'll develop an efficient algorithm for this problem. 
+A helpful abstraction will be to consider a window set at each $I$,
+$WS[I] = \{(J, A[J]) | I \le J \le min(I+k,n)\}$.  
+\begin{description}
+\item In terms of the window set at $I$, what is $MaxInWindow[I]$?  
+(2 points)
+\item What is the difference between $WS[I]$ and $WS[I+1]$?   
+(3 points)
+\item Based on your answers to the first two questions, what data structure operations would we want a data structure for $WS$ to support?
+(3 points)
+\item What data structure could we use for $WS$?  
+(3 points)
+\item What is the maximum size of this data structure?  (2 points)
+\item How long do the different data structure operations take? (3 points)
+\item Give pseudo-code for an algorithm to solve this problem using data structure operations. (5 points)  
+\item Give a time analysis for your algorithm, using answers to previous questions.(4 points). 
+\end{description}
+
+
+
+% MARK: Question 3
+\newpage
+\item \textbf{Subway stops}
+
+Underneath a city road, there are $n$ subway stops 
+$s_1,...s_n$ and
+$k$ subway lines.  Each subway line $k$ stops at some of the stops, in the
+same order, with line $k$ stopping at $s_{i_{k,1}},...s_{i_{k, t_k}}$,
+where $i_{k,1} < i_{k,2}... < i_{k,t_k}$.  You want to go from $s_1$
+to $s_n$ making as few transfers between lines as possible.       
+
+For example, there might be five stops, and three lines.
+The first line might stop at stops $1,3$, the second at $2,4, 5$, and the
+third at $2,3,4$.    Then we could board on line 1, take it to stop $3$,
+switch to line 3, take it to stop 4, switch to line 2 and take it to the end.
+
+Below, you will describe how to use a graph algorithm from class to solve the
+problem.
+\begin{enumerate}
+\item  What graph will you use to solve the problem?  Be sure to specify the set of vertices in your graph, the set of edges, whether the edges are directed or undirected, and what weights edges have, if any.  
+(5 points )
+\item How will you create the graph from the information given?  What format will you use for the graph?  How long does it take to create the graph?
+(3 points)
+\item How many vertices does your graph have, at most? Give this in terms of $n$ and $k$.
+(2 points)
+\item How many edges does your graph have, at most? Give this in terms of $n$ and $k$ 
+(3 points)
+\item  How do paths in your graph relate to ways of transfering?
+What is the relationship between the length of paths and the number of transfers? 
+(4 points)
+\item What algorithm from class will you run on the graph?
+Be sure to specify all inputs to this algorithm, and say how you use the results.
+(4 points)
+\item What is the total time complexity of using this algorithm from class to solve the subway transfer problem?  This should be given in terms of $n$ and $k$.
+(4 points)
+\end{enumerate}
+
+
+
+% MARK: Question 4
+\newpage
+\item \textbf{Vertex costs}
+
+Say we are given a graph $G$ where both vertices and edges
+have positive integer weights and two vertices $u$, $v$.  
+We want to find a path from $u$ to $v$ 
+that minimizes the total weights of both edges and vertices along the path.
+Give an efficient algorithm to solve this problem.  You can use any algorithm
+from class as given, but need to relate the correctness guarantee proved for
+that algorithm to correctness for this new problem.
+(10 points clear algorithm description, 10 points correctness argument, 5 points time analysis and efficiency)
+
+\end{enumerate}
+\end{document}
+
