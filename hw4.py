@@ -9,3 +9,19 @@ max_in_window():
         if (i + 1 + k <= n):
             heap.insert((i+1+k, A[i+1+k])) 
 
+
+Modified_Dijckstras():
+    dist = [ set all nodes to infinity ]
+    prev = [ set all nodes to None ]
+    dist[s] = weight[s]
+
+    H = initialize_min_heap(dist)
+
+    while H is not empty:
+        u = H.removeMin()
+        for edge (u, v) in E:
+            potential_dist = dist[u] + length(u, v) + weight[v]
+            if potential_dist < dist[v]:
+                dist[v] = potential_dist
+                H.update_heapify(v, potential_dist)
+                prev[v] = u

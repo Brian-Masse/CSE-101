@@ -343,13 +343,63 @@ that minimizes the total weights of both edges and vertices along the path.
 Give an efficient algorithm to solve this problem.  You can use any algorithm
 from class as given, but need to relate the correctness guarantee proved for
 that algorithm to correctness for this new problem.
-(10 points clear algorithm description, 10 points correctness argument, 5 points time analysis and efficiency)
 
-Given an undirected graph G, we can convert each undirected edge to two directed edges. If the graph $G$ is directed, we skip this step. Now with our directed graph we can create an adapted graph (G2) where, for each vertex $u$ in $G$, we can add the vertex weight $u_\omega$ to the edge weight $\omega(u,v)$ for all outgoing edges from vertex $u$. With this adapted graph, we can run Dijkstra's graph search algorithm to find the shortest weighted path from $u$ to $v$. 
-\\\\
-Proof of correctness: For this problem, we only need to create the new edge weights for graph G2 from G, and then can run the graph search algorithm Dijkstra's from class, and so the proof of correctness to find the shortest path is the same. 
-\\\\
-Time analysis and efficiency: To implement the graph, we will use the priority queue implementation. In our adapted graph (G2), the number of vertices does not change from the original graph (G). If graph G was originally undirected, the number of edges in G2 is doubled so the runtime of the algorithm is $O(deletemin * |V|+ decreasekey*2|E|)$. If the original graph was directed, the number of vertices and the number of edges in G2 is the same as G, so the runtime is $O(deletemin * |V|+ decreasekey*|E|)$ using a priority queue. 
+Can use the following slightly modified Dijkstras:
+\begin{lstlisting}  
+Modified_djikstras():
+    dist = [ set all nodes to infinity ]
+    prev = [ set all nodes to None ]
+    dist[s] = weight[s]
+
+    H = initialize_min_heap(dist)
+
+    while H is not empty:
+        u = H.removeMin()
+        for edge (u, v) in E:
+            potential_dist = dist[u] + length(u, v) + weight[v]
+            if potential_dist < dist[v]:
+                dist[v] = potential_dist
+                H.update_heapify(v, potential_dist)
+                prev[v] = u
+\end{lstlisting}
+
+The modification simply takes into account the weight of nodes when deciding whether to call `reduceKey.`
+
+\-\ \newline
+\emph{Time Analysis and Efficiency}
+
+The modification uses the same loop / logic as the base djikstras algorithm, and thus shares time complexity.
+
+Specifically, each node \(|V|\) is removed from the heap (removeMin) once. And each edge is checked \(|E|\) once.
+The priorityQueue is implemented with a mean heap, which has the following properties:
+\begin{itemize}
+    \item removeMin: \(= O(logn)\)
+    \item decreaseKey: \(= O(logn)\)
+\end{itemize}
+
+Thus, the total time complexity is:
+\[ O(log(n)\cdot (|V| + |E|)) \]
+
+
+\emph{Proof of Correctness}
+
+The proof of correctness is largely the same as the proof of correctness for the base djikstras algorithm, since loop, data structure, and operations are the same. 
+Vertex weights can be thought of as being added onto all incoming verticies. 
+
+Specifically, for correctness, use the loop invariant: \emph{When a node u is removed from the priorityQueue, dist[u] is the shortest path, including node weights, from s to u.}
+
+\begin{itemize}
+    \item The base case, when s is removed, is trivially correct. Since the shortest path from s to itself is \(weight[s]\)
+    \item For the general case, assume that a group \(u_1,..u_k\) have been removed and that \(dist[u_i]\) is the shortest path from s to \(u_i\)
+    We must show that when \(u_{k+1}\) is removed, that \(dist[u_{k_+1}]\) is the shortest path.
+
+    The remained of the proof is the same as we discussed in class: any supposedly shorter path from s to \(u_{k+1}\) would need to cross form the group \(u_1...u_k\) to outside the explored nodes. 
+    However, any such path would necessarily include a positive edge and vertex weight, making it longer. 
+    If those edges / verticies have weight 0, then at best we would have found a path of equivalent distance, proving the invariant. 
+
+\end{itemize}
+
+Thus, when each node is removed, we've fond the shortest path. Then, when all nodes are removed, we will have found the shortest path from s to the ending node. 
 
 \end{enumerate}
 \end{document}
