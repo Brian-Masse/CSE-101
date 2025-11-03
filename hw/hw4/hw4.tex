@@ -133,6 +133,9 @@ $WS[I] = \{(J, A[J]) | I \le J \le min(I+k,n)\}$.
 (2 points)
 \item What is the difference between $WS[I]$ and $WS[I+1]$?   
 (3 points)
+
+The window set $WS[I+1]$ differs from $WS[I]$ by one element leaving and one new element entering the window. Specifically, $(I, A[I])$ is removed from the set and $(I+k+1, A[I+k+1])$ is added, given that ($I+k+1 \leq n$).
+
 \item Based on your answers to the first two questions, what data structure operations would we want a data structure for $WS$ to support?
 (3 points)
 
@@ -149,7 +152,18 @@ We need the following data structure operations:
 Data structures that support the needed operations lisited above includes both Balanced Binary Search Tree (BST) and Double Ended Queue.
 
 \item What is the maximum size of this data structure?  (2 points)
+
+The maximum size of this data structure is k elements because the window covers k indices.
+
 \item How long do the different data structure operations take? (3 points)
+
+The data structure operations takes:
+\begin{itemize}
+\item insert: O(log k)
+\item delete: O(log k)
+\item get_max: O(log k)
+\end{itemize}
+
 \item Give pseudo-code for an algorithm to solve this problem using data structure operations. (5 points)  
 \item Give a time analysis for your algorithm, using answers to previous questions.(4 points). 
 \end{description}
