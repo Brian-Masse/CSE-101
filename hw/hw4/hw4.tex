@@ -135,8 +135,19 @@ $WS[I] = \{(J, A[J]) | I \le J \le min(I+k,n)\}$.
 (3 points)
 \item Based on your answers to the first two questions, what data structure operations would we want a data structure for $WS$ to support?
 (3 points)
+
+We need the following data structure operations:
+\begin{itemize}
+  \item insert(x) - In order to add the new element entering the window
+  \item delete(x) - In order to delete the element exiting the window
+  \item get_max() - To get the current maximum value within the window
+\end{itemize}
+
 \item What data structure could we use for $WS$?  
 (3 points)
+
+Data structures that support the needed operations lisited above includes both Balanced Binary Search Tree (BST) and Double Ended Queue.
+
 \item What is the maximum size of this data structure?  (2 points)
 \item How long do the different data structure operations take? (3 points)
 \item Give pseudo-code for an algorithm to solve this problem using data structure operations. (5 points)  
