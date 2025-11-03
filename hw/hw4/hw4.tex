@@ -134,6 +134,12 @@ $WS[I] = \{(J, A[J]) | I \le J \le min(I+k,n)\}$.
 \item What is the difference between $WS[I]$ and $WS[I+1]$?   
 (3 points)
 \item Based on your answers to the first two questions, what data structure operations would we want a data structure for $WS$ to support?
+We need the following data structures: 
+\begin{itemize}
+  \item insert(x) - insert a new element entering the window
+  \item delete(x) - delete the element exiting the window
+  \item get_max() - to get the current maximum value within the window
+\end{itemize}
 (3 points)
 \item What data structure could we use for $WS$?  
 (3 points)
