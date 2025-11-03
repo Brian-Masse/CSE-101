@@ -128,14 +128,16 @@ You wish to compute $MaxInWindow[I]= max_{I \le J \le min(I+k,n)} A[J]$ for all 
 By answering the questions below, you'll develop an efficient algorithm for this problem. 
 A helpful abstraction will be to consider a window set at each $I$,
 $WS[I] = \{(J, A[J]) | I \le J \le min(I+k,n)\}$.  
-\begin{description}
-\item In terms of the window set at $I$, what is $MaxInWindow[I]$?  
-(2 points)
 
-$MaxInWindow[I] \;=\; \max\{\, v \mid (J,v)\in WS[I] \,\}.$
+% PART A
+\begin{enumerate}
+\item In terms of the window set at $I$, what is $MaxInWindow[I]$?
 
-\item What is the difference between $WS[I]$ and $WS[I+1]$?   
-(3 points)
+$MaxInWindow[I] \;=\; \max\{\, v \mid (J,v)\in WS[I] \,\}.$ 
+\-\ \newline
+
+% PART B 
+\item What is the difference between $WS[I]$ and $WS[I+1]$?
 
 The window set $WS[I+1]$ differs from $WS[I]$ by one element leaving and one new element entering the window. Specifically, $(I, A[I])$ is removed from the set and $(I+k+1, A[I+k+1])$ is added, given that ($I+k+1 \le n$).
 
@@ -147,36 +149,91 @@ WS[I{+}1] \;=\; \big( WS[I] \setminus \{(I, A[I])\} \big)\; \cup\;
 \end{cases}
 \]
 
+% PART C
 \item Based on your answers to the first two questions, what data structure operations would we want a data structure for $WS$ to support?
-(3 points)
 
-We need the following data structure operations:
 \begin{itemize}
   \item insert(x) - In order to add the new element entering the window
   \item delete(x) - In order to delete the element exiting the window
   \item get\_max() - To get the current maximum value within the window
 \end{itemize}
+\-\
 
-\item What data structure could we use for $WS$?  
-(3 points)
+% PART D
+\item What data structure could we use for $WS$?
 
-Data structures that support the needed operations lisited above includes both Balanced Binary Search Tree (BST) and Double Ended Queue.
+Data structures that support the needed operations include:
+\begin{itemize}
+    \item Balanced Binary Search Trees (BST or RST)
+    \item Double Ended Queue
+    \item Priority Queue
+\end{itemize}
+\-\
 
-\item What is the maximum size of this data structure?  (2 points)
+% PART E
+\item What is the maximum size of this data structure?
 
 At most $k{+}1$ elements (the window is $[I,\,\min(I{+}k, n)]$ inclusive).
+\-\ \newline
 
-\item How long do the different data structure operations take? (3 points)
+% PART F
+\item How long do the different data structure operations take?
 
-\textbf{Balanced BST / multiset (recommended for these ops):}
-insert $= O(\log k)$,\; delete $= O(\log k)$,\; get\_max $= O(1)$ if we keep a pointer to the largest (or $O(\log k)$ to query the max).
+\emph{BST:}
+\begin{itemize}
+    \item insert $= O(\log k)$
+    \item delete $= O(\log k)$
+    \item get\_max $= O(1)$ if we keep a pointer to the largest (or $O(\log k)$ to query the max).
+\end{itemize}
+\-\
 
-\textbf{Plain double-ended queue (without monotone maintenance):}
-push/pop at ends $= O(1)$, but get\_max requires scanning $= O(k)$.
+\emph{Plain Dequeue (without monotone maintenance):}
+\begin{itemize}
+    \item push/pop at ends $= O(1)$
+    \item get\_max requires scanning $= O(k)$
+\end{itemize}
+\-\
 
-\item Give pseudo-code for an algorithm to solve this problem using data structure operations. (5 points)  
-\item Give a time analysis for your algorithm, using answers to previous questions.(4 points). 
-\end{description}
+\emph{Max-Heap:}
+\begin{itemize}
+    \item get\_max \(= O(1)\)
+    \item insert $= O(\log k)$ (\(O(k)\) in worst case)
+    \item delete $= O(\log k)$ (\(O(k)\) in worst case)
+\end{itemize}
+\-\ 
+
+\item Give pseudo-code for an algorithm to solve this problem using data structure operations.
+
+\begin{lstlisting}
+max_in_window():
+    max_arr = [1...n]
+    heap = initialize_max_heap( (i, A[i]) for i in range 0...k )
+
+    for i in 1...n:
+        max[i] = heap.peek()
+
+        heap.remove(key=i)
+        if (i + 1 + k <= n):
+            heap.insert((i+1+k, A[i+1+k])) 
+
+\end{lstlisting}
+
+\item Give a time analysis for your algorithm, using answers to previous questions. 
+\begin {itemize}
+\item The loop runs for each index of the array. 
+\item The heap is initialized in \(O(logk)\)
+\item heap.peek runs in \(O(1)\)
+\item heap.remove / heap.insert both run in \(O(logk)\) in the average case. 
+\end {itemize}
+
+\begin{eqnarray*}
+    \textnormal{Time Complexity} &\in& O(logk + n(2\cdot logk))\\
+    &\in& O(n\cdot logk)
+\end{eqnarray*}
+
+In the worst case (insert/delete on the heap run in \(O(k)\)). Time complexity \(\in O(n\cdot k)\)
+
+\end{enumerate}
 
 
 % MARK: Question 3
@@ -207,6 +264,7 @@ problem.
     \item There will be unweighted (weight = 0), directed edges representing getting from one subway station to another via line \(k\)
     \item There will be weighted (weight = 1), undirected edges representing switching subway line at a single station. For example, these edges will go from vertex \(S_{i, k_1}\) to \(S_{i, k_2}\)
 \end{itemize}
+\-\ 
 
 % PART B
 \item How will you create the graph from the information given?  What format will you use for the graph?  How long does it take to create the graph?
