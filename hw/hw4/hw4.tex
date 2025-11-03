@@ -51,74 +51,71 @@
 \item \textbf{Maximum consecutive sum}
 
 Here is an algorithm that, given an array
-of integers (not necessarily positive) $A[1..n]$, 
+of integers (not necessarily positive) $A[1..n]$,
 finds the maximum sum of a consecutive
-subarray, $max_{1 \le I \le J \le n} \sum_{K=I}^{K=J} A[K]$.
+subarray, $\max_{1 \le I \le J \le n} \sum_{K=I}^{J} A[K]$.
 \par
 \begin{enumerate}
 \item Initialize $MaxSumEndingAt[1..n]$.
 \item $MaxSumEndingAt[1]=A[1]$
 \item For $J=2$ to $n$ do:
-\item ~~~~$MaxSumEndingAt[J] = max(A[J], A[J]+MaxSumEndingAt[J-1])$
-\item $MaxConsSum= MaxSumEndingAt[1]$. 
+\item \hspace{1em}$MaxSumEndingAt[J] = \max(A[J],\, A[J]+MaxSumEndingAt[J-1])$
+\item $MaxConsSum= MaxSumEndingAt[1]$.
 \item For $J=2$ to $n$ do:
-\item ~~~$MaxConsSum= max(MaxConsSum, MaxSumEndingAt[J])$
+\item \hspace{1em}$MaxConsSum= \max(MaxConsSum,\, MaxSumEndingAt[J])$
 \item Return $MaxConsSum$
 \end{enumerate}
 
-% PART A
+% ==== Replaced Parts A–D with your text ====
 \begin{enumerate}
-\item  Give a mathematical formula for the value stored in $MaxSumEndingAt[J]$.
+        \item For each $J \in \{1, \dots, n\}$,
+        \[
+        \text{MaxSumEndingAt}[J] = \max_{1 \leq i \leq J} \sum_{k=i}^{J} A[k]
+        \]
+        This means it stores the largest sum of any non-empty subarray that ends at position $J$.  
+        From the algorithm, this can also be written as:
+        \[
+        \text{MaxSumEndingAt}[J] = \max(A[J],\, A[J] + \text{MaxSumEndingAt}[J-1]).
+        \]
+        
+        \item \textbf{Loop invariant:} Before each loop iteration at index $J$ ($J \ge 2$), $\text{MaxSumEndingAt}[t]$ holds the correct value for all $t \in \{1, \dots, J-1\}$.  
+        After computing line 4 for $J$, the invariant also holds for index $J$.
+        
+        \textbf{Proof:}
+        \begin{itemize}
+            \item \textit{Base case ($J=2$):} This is the state before the first loop iteration. Line 2 sets $\text{MaxSumEndingAt}[1] = A[1] = \max_{1 \le i \le 1} \sum_{k=i}^{1} A[k]$.
+            \item \textit{Inductive step:} Assume the invariant holds up to $J-1$. The best subarray ending at $J$ either:
+            \begin{enumerate}
+                \item starts fresh at $A[J]$, or
+                \item continues from the best subarray ending at $J-1$.
+            \end{enumerate}
+            Therefore,
+            \[
+            \text{MaxSumEndingAt}[J] = \max(A[J],\, A[J] + \text{MaxSumEndingAt}[J-1]),
+            \]
+            which matches the formula, so the invariant holds for $J$.
+        \end{itemize}
 
-let \(S_j\) be \(MaxSumEndingAt[J]\). Let \(A_i\) be \(A[i]\)
+        \item The goal is to find:
+        \[
+        \text{Ans} = \max_{1 \le I \le J \le n} \sum_{k=I}^{J} A[k].
+        \]
+        Since each $\text{MaxSumEndingAt}[J]$ gives the best sum ending at $J$,
+        \[
+        \text{Ans} = \max_{1 \le J \le n} \text{MaxSumEndingAt}[J].
+        \]
+        The second loop keeps track of this maximum:
+        \[
+        \text{MaxConsSum} = \max(\text{MaxConsSum},\, \text{MaxSumEndingAt}[J]).
+        \]
+        Initially (line 5), $\text{MaxConsSum} = \text{MaxSumEndingAt}[1]$.  
+        At the end (line 8), $J=n$ so $\text{MaxConsSum} = \max_{1 \le J \le n}\text{MaxSumEndingAt}[J]=\text{Ans}$.
 
-\[S_j = A_j + max(S_{j-1}, 0) \]
+        Hence, the algorithm is correct.
 
-% PART B
-\item Prove that is actually what is stored there as a loop invariant . (10 points)
-
-From the previous question, prove the loop invariant: \(S_j = A_j + max(S_{j-1}, 0) \)
-
-\begin {enumerate}
-\item Base Case: Trivially, \(S_1 = A_1 = A[1]\) \newline 
-\item Loop Invariant: Assume for some \(k, 1<k<n, S_k = MaxSumEndingAt[k]\), show \(S_{k+1}= MaxSumEndingAt[k + 1]\):
-
-\-\ \newline
-During the \(k+1\) iteration, there are 2 possibilities: 
-\begin{enumerate}
-    \item if \(MaxSumEndingAt[k] > 0\):
-    \begin{eqnarray*}
-        &\implies& max(A[k+1], A[k+1] + MaxSumEndingAt[k])\\
-        &=& A[k+1] + MaxSumEndingAt[k] \\
-        &=& A_{k+1} + S_k = A_{k+1} + max(S_k, 0)\\
-        &=& S_{k+1}
-    \end{eqnarray*}
-
-    \item if \(MaxSumEndingAt[k] \le 0\):
-    \begin{eqnarray*}
-        &\implies& max(A[k+1], A[k+1] + MaxSumEndingAt[k]) \\
-        &=& A[k+1] + 0 \\
-        &=& A[k+1] + max(0, MaxSumEndingAt[k]) \\
-        &=& A_{k+1}. max(S_k, 0) \\
-        &=& S_{k+1}
-    \end{eqnarray*}
-\end{enumerate}
-
-\end{enumerate}
-
-% PART C
-\item Use this to prove the algorithm is correct. (5 points)
-
-Based on the loop invariant, after \(i\) iterations, \(S_i\) is the largest consecutive sum ending at \(i\). After n iterations, all \(S_1,..S_n\) are the largest consecutive sums ending at 1...n.
-
-Because the largest consecutive sum must end at some \(i \in 1...n\), max\((S_1,..S_n)\), is the largest consecutive sum in the array. \newline
-
-% PART D
-\item Give a time analysis for this algorithm. (5 points)
-
-Both loops run in \(O(n)\) time. The work in the two loops is both constant time. Thus, the runtime for the entire algorithm is: \(O(2n) \in O(n) \)
-
-
+        \item The first loop (lines 3--4) runs $n-1$ times, each taking constant time.  
+        The second loop (lines 6--7) also runs $n-1$ times.  
+        Therefore, the total time is $\Theta(n)$.
 \end{enumerate}
 
 
