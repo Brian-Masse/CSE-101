@@ -167,22 +167,78 @@ switch to line 3, take it to stop 4, switch to line 2 and take it to the end.
 Below, you will describe how to use a graph algorithm from class to solve the
 problem.
 \begin{enumerate}
+
+% PART A
 \item  What graph will you use to solve the problem?  Be sure to specify the set of vertices in your graph, the set of edges, whether the edges are directed or undirected, and what weights edges have, if any.  
-(5 points )
+
+\begin{itemize}
+    \item This will be a directed graph. Each node \(S_{i,k}\) represents a subway station \(i\) reached by subway line \(k\)
+    \item There will be unweighted (weight = 0), directed edges representing getting from one subway station to another via line \(k\)
+    \item There will be weighted (weight = 1), undirected edges representing switching subway line at a single station. For example, these edges will go from vertex \(S_{i, k_1}\) to \(S_{i, k_2}\)
+\end{itemize}
+
+% PART B
 \item How will you create the graph from the information given?  What format will you use for the graph?  How long does it take to create the graph?
-(3 points)
+
+To create the graph from the given information:
+\begin{itemize}
+    \item Create a grid of k rows by n columns of verticies. Label each \(S_{row, col}\)
+    \item Draw unweighted, directed edges from \(S_{i_1, k}\) to \(S_{i_2, k}\) (collection of all stations reachable by line k) for every rail line k. 
+    \item Draw weighted (weight = 1), undirected edges between the rail stops at each specific station
+    \item Create a single node at the start and end of the graph, with directed, unweighted edges to all \((S_i,k)\) stops. This will serve as the start and end goals of the algorithm.
+    \item Remove any unused rail stops. (a rail line that is not used at station \(i\)
+\end{itemize}
+
+Given the answers in the following 2 questions, you must draw at most \(n \cdot k\) + 2 nodes, \((n-1) \cdot k\) rail connections, 2\(\cdot (k-1) \cdot n\) rail line changes, and \(2k\) edges from the first/last nodes to the first/last stations. Asymptotically, it will take \(O(nk)\)
+\-\ \newline
+
+% PART C
 \item How many vertices does your graph have, at most? Give this in terms of $n$ and $k$.
-(2 points)
+\[ |V| \le n\cdot k + 2\]
+
 \item How many edges does your graph have, at most? Give this in terms of $n$ and $k$ 
-(3 points)
-\item  How do paths in your graph relate to ways of transfering?
-What is the relationship between the length of paths and the number of transfers? 
-(4 points)
+
+\begin{itemize}
+    \item Directed Edges. If each rail line connects to every stations, there are at most \((n-1) \cdot k \) edges
+    \item Undirected Edges. To connect every rail line at every station requires 2 directed edges, so there are at most \( 2(k-1) \cdot n \) edges
+    \item Extra Edges. If there are k rail line connections at the first and last stations, then the first and last nodes will have \(k\) edges to and from them respectively. 
+\end{itemize}
+
+\[ |E| \le (n-1)\cdot k + 2(k-1)\cdot n + 2\cdot k\]
+
+% PART D
+\item  How do paths in your graph relate to ways of transfering? What is the relationship between the length of paths and the number of transfers? 
+
+Unweighted edges represent no transfers. Subway line transfers have a weight of 1. Thus the weigh of the paths from \(S_1\) to \(S_n\) is the number of transfers made during that trip.
+\-\ \newline
+
+% PART E
 \item What algorithm from class will you run on the graph?
 Be sure to specify all inputs to this algorithm, and say how you use the results.
-(4 points)
+
+\-\ \newline
+The modified Dijkstras algorithm should be used to find the shortest weighted path between the first and last subway station. This will automatically minimize the number of transfers. 
+
+\-\ \newline
+The algorithm would assume the goal is to get from station \(S_1\) to station \(S_n\). It would run the modified Dijkstras algorithm from class on the first node and try to reach the last node.
+
+\-\ \newline
+The fully weighted and directed graph would be input (either in adjacency  list or matrix format). The result would either be the length of the shortest trip, or an array of previous nodes showing the shortest path.
+
+% PART F
+\-\ \newline
 \item What is the total time complexity of using this algorithm from class to solve the subway transfer problem?  This should be given in terms of $n$ and $k$.
-(4 points)
+
+The algorithm uses the same Dijkstras algorithm we used in class, and has the same time complexity: \( O( |RemoveMin||V| + |ReduceKey||E| ) \)
+
+For this problem specifically:
+\begin{eqnarray*}
+    && O(|RemoveMin| \cdot (nk) + |ReduceKey| \cdot (nk) )\\
+    &\in& O( (nk) \cdot ( |RemoveMin| + |ReduceKey|) )
+\end{eqnarray*}
+
+Depending on the underlying implementation of the min-heap, the exact time complexity would vary. 
+
 \end{enumerate}
 
 
