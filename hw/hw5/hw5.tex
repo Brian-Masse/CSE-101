@@ -57,6 +57,64 @@ speed $s_i$.  We need to pair the horses up into teams to pull carts.The faster 
 Give a greedy strategy for this problem, and prove that it is correct using any of the proof templates from class.
 
 
+\begin{enumerate}
+    \item Greedy Algorithm: When picking the next pair of horses, pick the 2 fastest horses from the remaining horses.
+    \item Proof of correctness (via exchange):
+    
+    Let $G$ be the first greedy choice. Let $OS$ be an optimal solution
+
+    Find the 2 pairs with the 2 fastest horses, $H_1, H_2$: $(H_1, H_i), (H_2, H_j)$. These horses will be separate, otherwise $OS$ already contains $G$. Exchange $H_i$ and $H_2$
+
+    Note:
+    \begin{eqnarray*}
+        && H_1 \ge H_2, H_2 \ge H_i, H_2 \ge H_j \\
+        && min(H_1, H_i) = H_i, min(H_2, H_j) = H_j \\
+        &\implies& min(H_1, H_2) \ge min(H_1, H_i)
+    \end{eqnarray*}
+    
+    For the second new pairing, $(H_i, H_j)$ there are 2 possibilities
+    \begin{enumerate}
+        \item $H_i \ge H_j \implies min(H_2, H_j) = min(H_i, H_j) = H_j$:
+        \item $H_i < H_j:$ 
+        \begin{eqnarray*}
+            && min(H_1, H_i) + min(H_2, H_j) - min(H_1, H_2) - min(H_i, H_j) \\
+            &=& H_i + H_j - H_2 - H_i = H_j - H_2 \le 0 \\
+            &\implies& \textnormal{New solution is faster}
+        \end{eqnarray*}
+    \end{enumerate}
+
+    Thus, the net speed of the exchanged solution is always as good as the original and meets the constraints of the problem
+
+    \-\ \newline
+    Now, proving correctness via induction on number of horses. This proof assumes there will always be an even number of horses to make the pairings.
+
+    \begin{enumerate}
+        \item Base Case: $n = 0, 2$: Trivially, the greedy solution (and all solutions) are optimal
+        \item Induction Step. Let $OS$ be any solution for the group of horses $I = \{H_1,...H_k\}, k > 2$
+        
+        By the exchange argument above, $\exists OS'$ such that $|OS| \le |OS'|$ and $G \in OS$
+
+        Let $I'$ be the set of pairs of horses that have neither $H_1$ or $H_2$ in them. 
+
+        \begin{eqnarray*}
+            && OS' = \{G\} \cup I' = \{ (H_1, H_2), (H_i, H_j) \} \cup I' \\
+            && \textnormal{Because } ||I'|| = k - 4 \le k, \textnormal{by the induction hypothesis } |S(I')| \le |GS(I')| \\
+            &\implies& |OS| \le |OS'| = |\{G\} \cup OS(I')| \le |\{G\} \cup GS(I')| = |GS(I)|
+        \end{eqnarray*}
+    \end{enumerate}
+
+    Thus, for every set of horses, the greedy solution is as good as the optimal solution. 
+
+
+    \item Time Analysis.
+     This algorithm only needs an input of horses, sorted by their speed. Thus, the algorithm takes $O(n \cdot log(n))$
+     \begin{itemize}
+        \item $log(n)$ to sort the horses
+        \item $n$ to scan through the sorted list of horses and create the pairings
+     \end{itemize}
+
+
+\end{enumerate}
 
 
 
