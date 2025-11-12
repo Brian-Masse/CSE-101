@@ -197,7 +197,69 @@ In a role-playing game, your character will complete a series of $k$ quests.  Th
 
 \begin{enumerate}
 \item Clearly state a greedy strategy that gives the most possible total gold
+
+At choice $i$ pick the quest with the most gold and that satisfies $f_i \le i$
+
+
 \item Prove that this strategy is correct. Hint: use a modify-the-solution proof with two cases, based on whether the next quest the greedy algorithm performs is performed at some point in $OS$.
+
+\-\ \newline
+Proof by exchange:
+\begin{itemize}
+    \item Let $G$ be the first greedy solution ($Q{g_o}$)
+    \item Let $OS$ be an optimal solution
+\end{itemize}
+
+There are 2 possibilities:
+\begin{enumerate}
+    \item $OS$ never picks $G$:
+    
+    In this case, create $OS'$ by exchanging the first non greed choice, $Q_{j_0}$ with G
+    \begin{itemize}
+        \item $OS'$, by definition, still satisfies the ordering constraint ($f_{g_0}$ must $=1$ to be chosen first)
+        \item $G$ yields the highest gold at choice 1: $g_{g_0} \ge g_{j_0} \implies |OS'| \ge |OS|$
+    \end{itemize}
+
+    \-\
+    \item $OS$ Picks $G$ as the $i^{th}$ quest.
+    
+    In this case, exchange $G$ with the first pick, $Q_{j_0}$
+    \begin{itemize}
+        \item Still satisfies constraints: both $f_{j_0}$ and $f_{g_0} \le 1$. Thus both can serve as the first and $i^{th}$ choice without breaking a constraint
+        \item $|OS'| = |OS|$ since all the quests are the same
+    \end{itemize}
+\end{enumerate}
+
+Thus, you can always create a $|OS'|$ from an $OS$, such that $OS'$ meets the constraints of the problem and is equally as good.
+
+\-\ \newline
+Now, proving correctness via induction on number of quests. 
+\begin{enumerate}
+    \item Base case: n = 1: Greedy (and all) solutions are trivially correct
+    \item Induction Step:
+    
+    \begin{itemize}
+        \item Let $I$ be a set of quests $\{Q_1,...Q_n\}$. We can create $OS'$ from any $OS(I)$ such that $|OS'| \ge |OS|$ and $G \in OS'$
+        \item Let $I'$ be the set of quests without $G$
+        \item Let $I''$ be the set of quests where $G$ is not the first choice. 
+    \end{itemize}
+
+    Note that by the above proof, we can trivially exchange any solution $OS(I'')$ into a solution on $I$ starting with $G$ with changing the optimality of the solution. Thus,
+    \begin{eqnarray*}
+        OS' &=& \{G\} \cup I' \cup I'' \\
+        |OS| \le |OS'| &=& |\{G\} \cup OS(I') \cup OS(I'')| \\
+        &=& |\{G\} \cup OS(I')| \textnormal{ (By exchanging solutions from $I''$)} \\
+        &\le& |\{G\} \cup GS(I')| \textnormal{ (By Induction Hypothesis)} \\
+        &=& |GS(I)|
+    \end{eqnarray*}
+\end{enumerate}
+
+Thus, the greedy solution provides an optimal solution on any set of quests. 
+
+
+
+
+\-\ 
 \item Give an efficient algorithm carrying out this strategy and give a time analysis of your algorithm.
 \end{enumerate}
 
