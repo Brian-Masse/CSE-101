@@ -137,14 +137,56 @@ GreedySensorMin [$d_1...d_n, M$]
 \item Return list
 \end{enumerate}  
 
+Questions:
 
 \begin{enumerate}
 \item What constraints do solutions $d_{i_1},..d_{i_k}$ need to meet for this problem?
+
+\begin{itemize}
+    \item For a solution $d_{i_1},...d_{i_k}$, minimize k
+    \item $d_{i_1} < d_{i_2} < \dots < d_{i_k}$
+    \item $d_{i_j} - d_{i_{j-1}} < M \implies d_{i_j} < d_{i_{j - 1}} + M$
+    \item ${d_{i_1}} = 0, d_{i_k} = d_n$
+\end{itemize}
+
+\-\ 
 \item What is the value of the objective function for a solution, of the form $d_0,d_{i_1},..d_{i_k}=d_n$, ?  
+The value of the objective function of such a solution is $k$. The goal is to minimize k 
+
+\-\
 \item In using the ``greedy stays ahead'' proof technique to show that this is optimal, we would compare the greedy solution $d_{g_1},..d_{g_k}$ to another solution, $d_{j_1},..d_{j_{k'}}$ .   In what sense is the greedy solution ``staying ahead'' of the other solution at each step $1 \le t \le  k'$?
+
+The $i^{th}$ choice to place a marker in the greed solution must always be farther or equally along the road compared to the $i^{th}$ choice in the normal solution. ($d_{g_i} \ge d_{j_i}$)
+
+\-\
 \item Prove the claim you wrote above using induction on the step $t$.  
-\item In O notation,how much time does the algorithm as written take?
+
+\begin{enumerate}
+    \item Base case: $t = 0 \implies d_{g_0} = d_0 = 0 = d_{j_0}$ 
+    \item Induction Step: Assume $d_{g_{t - 1}} \ge d_{j_{t-1}}$, show $d_{g_{t}} \ge d_{j_{t}}$ for $t > 0$
+    
+    \begin{itemize}
+        \item Let I be the set of valid choices for the greedy algorithm at step $t$. It contains markers between $d_{g_{t-1}}, d_{g_{t-1}} + M$
+        \item Let J be the set of valid choices for the regular optimal solution. It contains markers between $d_{j_{t-1}}, d_{j_{t-1}} + M$
+    \end{itemize}
+
+    By the inductive hypothesis, $d_{g_{t-1}} \ge d_{j_{t-1}} \implies d_{g_{t-1}} + M \ge d_{j_{t-1}} + M$. Thus, any valid solution in the regular set, $j \in J$, is either less than all solutions in I, or contained within I. Because the Greedy algorithm picks the largest marker in I: 
+    \begin{itemize}
+        \item If the regular solution picks $d_{j_t} \notin I \implies d_{j_t} < d_{g_t}$
+        \item If the regular solution picks $d_{j_t} \in I \implies d_{j_t} \le d_{g_t}$
+    \end{itemize}
+
+    Thus, the $i^{th}$ greedy choice, $d_{g_i}$, is at least as far along the as the $i^{th}$ normal choice $d_{j_i}$
 \end{enumerate}
+
+\-\
+\item In O notation, how much time does the algorithm as written take?
+
+The above algorithm runs in $O(n)$ time. Each one of the $n$ markers is considered ($O(1)$) exactly once.
+\end{enumerate}
+
+
+
 
 
 % MARK: Question 3
