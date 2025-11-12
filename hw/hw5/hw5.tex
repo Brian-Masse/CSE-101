@@ -293,9 +293,45 @@ Say we allow negative edge weights into the spanning tree problem. We are given 
 
 \begin{enumerate}
 \item Give an example of a graph with some negative edge weights where the minimum cost connected subgraph is not a tree.
+
+\includegraphics[width=0.65\textwidth]{src/01.png}
+
+The above graph ($G = \{ (A, B, 5), (B, C, -1), (B, D, -2), (C, D, -1) \}$) has some negative and some positive weighted edges. The minimum cost connected subgraph, however, is not a tree because of the $(B, C, D)$ cycle. A regular spanning tree necessarily has a higher weight. 
+
+\-\ 
 \item Which edges are always in the minimum cost subgraph?
+
+All negative weighted edges. $E' = \{ e \in E | w(e) < 0 \}$
+
+Adding any negative edge will always reduce the overall cost of the subgraph, and thus must be included in minimum connected subgraph. 
+
+\-\
 \item Once the edges above are added, what is an equivalent problem?
+
+After adding all edges with negative weights, it's possible to represent nodes connected with negative edges as strongly connected components, inter-connected with the remaining positive edges. In this state the problem can be interpreted as a standard MST problem.
+
+\-\
 \item Describe how to use the answers to the above two questions to reduce this problem to minimum spanning tree. Give a time analysis for the resulting algorithm.
+
+The following algorithm implements the procedure described above:
+
+\begin{itemize}
+    \item Identify all negative edges $E' = \{ e \in E | w(e) < 0 \}$
+    \item Identify connected components from those edges via DFS. Label a component that contains any vertex $u$ as $C(u)$ 
+    \item let $H$ be a subgraph of $G$: $H = \{ V, (u, v) \in E \backslash E' | C(u) \ne C(v)\}$
+    \item Now the graph $H$ is a standard, positive edged connected graph, which can be a candidate of any MST algorithm.
+\end{itemize}
+
+The overall time analysis is $O(|E| \cdot log(|V|))$ or $O(|V|^2)$ depending on the implementation used for the MST
+\begin{itemize}
+    \item Constructing $E' \in O(|E|)$
+    \item Decomposition algorithm to get SCCs $\in O(|E| + |V|)$
+    \item Constructing $H \in O(|E|)$
+    \item Running MST via Prims algorithm $\in O(|V|^2)$ (Array implementation of Priority Queue) or $\in O(|E| \cdot log(|V|))$ (min-heap implementation of priority Queue)
+\end{itemize}
+
+Thus, the dominant time is the MST, and total time complexity $= O(|E|) + O(|E| + |V|) + O(|E|) + O(|V|^2) | O(|E| \cdot log(|V|)) \in O(|V|^2) | O(|E| \cdot log(|V|))$
+
 \end{enumerate}
 
 % MARK: Question 5
