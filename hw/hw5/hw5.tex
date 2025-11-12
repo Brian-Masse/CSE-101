@@ -219,12 +219,35 @@ Say we allow negative edge weights into the spanning tree problem. We are given 
 \newpage
 \item \textbf{Graph coloring heuristics}
 
-The graph coloring problem is, given an undirected graph, give each vertex a color, so that neighboring vertices have different colors.  You want to minimize the number of colors.  This is an $NP$-complete problem, so we might want to use a greedy heuristic.
+The graph coloring problem is, given an undirected graph, give each vertex a color, so that neighboring vertices have different colors. You want to minimize the number of colors. This is an $NP$-complete problem, so we might want to use a greedy heuristic.
 
-One greedy heuristic would be to order the vertices, then assign each the smallest color that is different from its neighbors.   
+One greedy heuristic would be to order the vertices, then assign each the smallest color that is different from its neighbors.
 
-Implement this heuristic on random graphs where we start with $|V|$ vertices and add $5|V|$ random edges. For a variety of sizes (e.g., $|V|=2^k$ for $k=3,...12$), and several graphs of each size, try the heuristic ordering the vertices by increasing degree (number of neighbors) and decreasing degree. Plot the two numbers of colors used. Do these increase with $|V|$?  How consistent are the results with different graphs of the same size?  
+Implement this heuristic on random graphs where we start with $|V|$ vertices and add $5|V|$ random edges. For a variety of sizes (e.g., $|V|=2^k$ for $k=3,...12$), and several graphs of each size, try the heuristic ordering the vertices by increasing degree (number of neighbors) and decreasing degree. Plot the two numbers of colors used. Do these increase with $|V|$? How consistent are the results with different graphs of the same size?  
 
+\medskip
+
+\noindent \textbf{Heuristic Description:}  
+We used a greedy coloring algorithm that assigns each vertex the smallest color not used by its already-colored neighbors. Two vertex orderings were tested on random graphs with $|V|$ vertices and $5|V|$ random edges:  
+(1) vertices sorted by \textbf{increasing degree} (fewest neighbors first), and  
+(2) vertices sorted by \textbf{decreasing degree} (most neighbors first).  
+
+\medskip
+
+\noindent \textbf{Experimental Setup:}  
+For each size $|V| = 2^k$ where $k = 3, \dots, 12$, several random graphs were generated and the number of colors used by both heuristics was recorded. Each graph was formed by connecting random pairs of vertices until $5|V|$ edges were added.
+
+\medskip
+
+\noindent \textbf{Results and Discussion:}
+\begin{itemize}
+    \item The number of colors generally \textbf{increases with $|V|$}, but slowly, since the average degree (around 10) stays roughly constant.
+    \item The \textbf{decreasing-degree ordering} consistently uses \textbf{fewer colors} than the increasing-degree ordering, since coloring high-degree vertices first reduces later conflicts.
+    \item For graphs of the same size, results were \textbf{fairly consistent}, showing only small variation across different random graphs.
+\end{itemize}
+
+\noindent \textbf{Conclusion:}  
+Overall, the greedy heuristic performs well and scales smoothly with graph size. The vertex ordering has a clear impact: decreasing-degree ordering achieves better coloring results and fewer total colors on average.
 
 \end{enumerate}
 \end{document}
