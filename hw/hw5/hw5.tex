@@ -344,6 +344,23 @@ One greedy heuristic would be to order the vertices, then assign each the smalle
 
 Implement this heuristic on random graphs where we start with $|V|$ vertices and add $5|V|$ random edges. For a variety of sizes (e.g., $|V|=2^k$ for $k=3,...12$), and several graphs of each size, try the heuristic ordering the vertices by increasing degree (number of neighbors) and decreasing degree. Plot the two numbers of colors used. Do these increase with $|V|$?  How consistent are the results with different graphs of the same size?  
 
+\-\ \newline
+\includegraphics[width=0.65\textwidth]{src/02.png}
+
+The above graph represents the number of colors needed for a given graph plotted against the number of verticices in that graph. Specifically,
+\begin{itemize}
+    \item x-axis: number of verticies, $|V|$, in the graph. The experiment was run on inputs of $2^k, k \in \{ 3,...12\}$
+    \item y-axis: number of colors needed to properly solve the graph coloring problem. For each input, 5 graphs were generated. Above is the average of the number of colors needed for each. 
+    \item Color: The color denotes how the verticies were ordered before applying the greedy solution to the problem. Red ordered verticies with the most neighbors first, blue did the opposite. 
+\end{itemize}
+
+Questions:
+
+\begin{enumerate}
+    \item Generally the number of colors needed to color the graphs increases with $|V|$, however the increase is only marginal. The correlation is roughly $0.1$
+    \item Different graphs of the same size generally had similar number of colors. The largest ever recorded difference was $\pm 1$ (for 1 input, 1 graph needed 4 colors, another 5, and another 6.)
+\end{enumerate}
+
 
 \end{enumerate}
 \end{document}

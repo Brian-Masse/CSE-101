@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  11 NOV 2025 20:33
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  11 NOV 2025 21:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -290,26 +290,32 @@ Package pdftex.def Info: src/01.png  used on input line 297.
 [8 <./src/01.png>]
 
 [9]
+<src/02.png, id=47, 1324.95pt x 847.165pt>
+File: src/02.png Graphic file (type png)
+<use src/02.png>
+Package pdftex.def Info: src/02.png  used on input line 348.
+(pdftex.def)             Requested size: 342.91737pt x 219.24942pt.
 
-[10] (./hw5.aux)
+
+[10 <./src/02.png>] (./hw5.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 4727 strings out of 474662
- 73902 string characters out of 5751110
+ 4734 strings out of 474662
+ 74020 string characters out of 5751110
  662104 words of memory out of 5000000
- 27738 multiletter control sequences out of 15000+600000
+ 27745 multiletter control sequences out of 15000+600000
  564781 words of font info for 57 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  70i,11n,79p,523b,395s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </Users/brianmasse/Library/texlive/2025basic/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on hw5.pdf (10 pages, 268114 bytes).
+Output written on hw5.pdf (10 pages, 411358 bytes).
 PDF statistics:
- 105 PDF objects out of 1000 (max. 8388607)
+ 107 PDF objects out of 1000 (max. 8388607)
  65 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
