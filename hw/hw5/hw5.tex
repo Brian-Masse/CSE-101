@@ -257,10 +257,31 @@ Now, proving correctness via induction on number of quests.
 Thus, the greedy solution provides an optimal solution on any set of quests. 
 
 
-
-
 \-\ 
 \item Give an efficient algorithm carrying out this strategy and give a time analysis of your algorithm.
+
+\begin{enumerate}
+    \item Explanation of algorithm:
+    
+    \begin{itemize}
+        \item Order all quests by $g_i$
+        \item Initialize an empty max heap
+        \item Loop through $1...k$. At the $i^{th}$ step, insert all quests with $f_i \le i$ into the max heap. Pop the max as the $i^{th}$ choice. 
+    \end{itemize}
+
+    \-\
+    \item Runtime analysis:
+    \begin {itemize}
+        \item Sorting elements takes $O(n\cdot log(n))$
+        \item Inserting and removing from the max-heap takes $O(logn)$
+        \item Each quest is inserted into the heap
+    \end {itemize}
+
+    Thus the total runtime is $O(n \cdot log(n))$
+
+\end{enumerate}
+
+
 \end{enumerate}
 
 
