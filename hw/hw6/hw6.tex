@@ -76,16 +76,96 @@ HF(A[1..n])
 \item Return $HF(B[1..J-1])$.
 \end{enumerate}
 
+% MARK: Q2.a
 Questions:
 \begin{enumerate}
-\item Give the recursive calls the algorithm would make on input
-$A[1..7] = (1,4, 3,3, 2,3, 3)$.
+\item Give the recursive calls the algorithm would make on input $A[1..7] = (1,4, 3,3, 2,3, 3)$.
+
+Call 1:
+\begin{itemize}
+    \item Arr = $[1, 4, 3, 3, 2, 3, 3]$
+    \item n = $7$
+    \item count = $4$
+\end{itemize}
+
+$4 > floor(7 / 2) = 3 \implies return 3;$
+
+\-\
+% MARK: Q2.b
 \item Prove that if $x$ is a high-frequency element in $A[1..n]$, then
 $x$ is a high frequency element in $B[1...J-1]$ at the end of the loop.
-(Hint: look at the number of times each of the following occur for consecutive eelements of $A$: Both are $x$, both are some $y \neq x$, exactly one is $x$, neither is $x$ and are not equal.) 
-\item Use this to prove that if $x$ is a high-frequency element in $A[1..n]$,
-then $HF(A[1..n])=x$.
+
+The only way to reach $J++$ is to have a consecutive pair in A. 
+
+There must be at least 1 pair $(x,x) \in A$:
+    \begin {itemize}
+        \item If n is even: 
+        
+        the number of times x appears in a, $|x| >  \lfloor{n / 2}\rfloor = n / 2$. Thus you cannot put a $y \ne x$ between every x, and thus there is a consecutive pair $(x,x)$
+
+        \-\
+        \item If n is odd:
+        
+        If there is a space between every occurrence of x, then $A[1] = x = A[n]$, which would have been detected in the count section of the algorithm and returned. 
+
+        \-\ \newline
+        Otherwise ($A[n] \ne x$), you cannot space apart $\lfloor{n/2}\rfloor + 1 $ xs in $\frac{n - 1}{1}$ spaces
+        \-\ 
+
+    \end {itemize}
+
+Therefore B will always have at least 1 x in it. The only other way to add an element to B is if there is another consecutive pair, $(y,y)$ such that $y \ne x$. However, for any $(y,y)$ there exists at least another $(x,x)$
+
+Consider placing the required $(x,x)$ at the beginning of A:
+    \begin {itemize}
+        \item Place a $(y,y)$. There are now $n - 4$ remaining spots
+        \item For x to be a highest frequency item, you must place $\ge n/2 - 1$ more xs. 
+        \item $\frac{n-4}{2} = \frac{n}{2} - 2 < n/2 - 1$
+    \end {itemize}
+
+Thus, you must fill more than half of the remaining spots with x, meaning that there must be another consecutive pair of xs. Therefore, for every added $y$ in B, there is another $x$ in B. So at most $A \ni | (x,x)| > |(y,y)| \implies B \ni |x| > |y|$
+
+Therefore x is the highest frequency in B as well. 
+
+\-\
+% MARK: Question 2.c
+\item Use this to prove that if $x$ is a high-frequency element in $A[1..n]$, then $HF(A[1..n])=x$.
+
+Note that every recursive call has a smaller B: $|B_{i+1}| \le 1/2|B_i|$. Thus B is always decreasing, and by the previous question, x is always the highest frequency item in B. During each iteration there are several possibilities:
+    \begin {itemize}
+        \item $|B_i|$ is odd and $B.last() = x$:
+        
+        return x.
+
+        \emph{This cannot return any other value other than x, since no other value appears over half the time (by problem statement)}
+
+        \-\
+        \item $|B_i|$ is even or $B.last() \ne x$
+        
+        Iterate to the next $B_{i+1}$. By the previous question, if x is the highest frequency item in $B_i$, then $B_{i+1}$ must have at least 1 item, namely $x$. 
+
+    \end {itemize}
+
+Thus after each recursive call, B must get smaller, can never be empty, and must contain x. The only value the function is able to return is x, which happens in the smallest (end) case, of $B = \{x\}$
+
+\-\
+% MARK: Question 2.d
 \item Give a worst-case time analysis for this algorithm.
+
+The time analysis can be solved via the master theorem. First, each call only takes $O(n)$ time, since, at worst, it loops through every element twice (once for cunt, and the second to construct B.). Then:
+    \begin {itemize}
+        \item Each iteration only spawns 1 sub problem
+        \item Each subproblem is, at worst $n/2$.
+        
+        This happens when the array only has consecutive pairs, and thus adds an element to B.
+    \end {itemize}
+
+Thus,
+
+\[ T(n) = 1 \cdot T( n / 2) + O(n)\]
+
+By the master theorem: $a = 1, b = 2, d = 1 \implies a < b^d \implies T(n) \in O(n)$
+
 \end{enumerate}
 
 % MARK: Question 3
@@ -102,6 +182,7 @@ For example, if the list had elements $(2,.1), (4,.2), (-3, .2),(1,.4), (5,.1)$,
 Give an efficient algorithm (faster than sorting the list) to compute a weighted
 median. 
 
+% MARK: Q3 Answers
 \-\ \newline 
 \begin{lstlisting}
 // pass in the list of pairs, the size of the list, and half the total weight
