@@ -100,7 +100,95 @@ Let $W= \sum_{1 \le i \le n} w_i$ be the total weight. The weighted median is a 
 For example, if the list had elements $(2,.1), (4,.2), (-3, .2),(1,.4), (5,.1)$,we can compute $W=1$, so $W/2=.5$.  A weighted median is $1$, because the sum of the weights of values less than $1$ is $.2$ and the sum of the weights larger than $1$ is $.1+.2+.1= .4$.
 
 Give an efficient algorithm (faster than sorting the list) to compute a weighted
-median.  Hint: use the select procedure from class as a subroutine, but don't try to modify it. Must be $o(n log n)$.) 
+median. 
+
+\-\ \newline 
+\begin{lstlisting}
+// pass in the list of pairs, the size of the list, and half the total weight
+// The final piece can be precomputed in linear time. 
+weighted_median(list L, size n, WM):
+
+    // Find the median of the given list (by value, not weight)
+    // Using the select algorithm from class
+    median = select_lowest(L, n / 2)
+
+    // create 3 sub array for pairs with a value <, =, > the median
+    // keep track of their cumulative weight
+    SL = []; WL = 0;
+    SM = []
+    SR = []; WR = 0;
+
+    // loop through the list to build sub arrays.
+    for pair in L:
+        if pair.value < median.value:
+            SL.add(pair)
+            WL += pair.weight
+        elif pair.value > median.value:
+            SR.add(pair)
+            WR += pair.weight
+        else:
+            SM.add(pair)
+
+    // if both sides are less than the target weight, that value is the weighted median
+    if (WL < WM && WR < WM):
+        return median
+
+    // run the algorithm recursively on whichever subset was greater than the target weight
+    if (WL > WM):
+        return weighted_median(WL, WL.size(), WM)
+    else:
+        return weighted_median(WR, WR.size(), WM)
+\end{lstlisting}
+
+
+\emph{Short Correctness Proof}
+
+The algorithm recursively calls the select median algorithm discussed in class. It is assumed that, for any set, it correctly returns the median. Once the median is found, the algorithm uses it as a pivot to create 3 partitions: values less than the median, equal to the median, and greater than the median, and calculates the total weight of each partition. 
+
+There are 2 outcomes:
+
+\begin{itemize}
+    \item  The weight of both subsets are less than $W/2$. This implies the median is the weighted median and returns
+    \item The weight of one of the subsets is greater than $W/2$. In this case, the weighted median must be in the heavier subset, since being in either other subset implies values above or below it sum above $W/2$, violating the definition of the weighted median. Thus, the algorithm runs itself on the smaller subset. 
+    
+    \-\ \newline
+    \emph{Note: Only 1 subset can have a weight $> W/2$, since all others must have weight $w < W/2$ to all sum to $W$}
+
+    \emph{Note: A recursive call will never contain an empty set. If there are no numbers above or below the median returned by select, that number is the weighted median.}
+\end{itemize}
+
+\emph {Analysis / Efficiency}
+
+This algorithm can be determined using the master theorem. First note:
+
+\begin{itemize}
+    \item Calculating target weight $\in O(n)$
+    \item Select (from class) $\in O(n \cdot log(n))$
+    \item partitioning into subsets $\in O(n)$
+    \item The partitions will always be roughly $n/2$ elements large, since they use the median as the pivot, which by definition is in the center of the set.
+\end{itemize}
+
+Together this implies the total time complexity, $T(n):$
+\[ T(n) = 1 \cdot T( n / 2) + O(n \cdot log(n)) \]
+
+\begin{enumerate}
+    \item Only 1 subset is recursively called on $\implies$ 1 subroutine
+    \item With median as input, subroutines are roughly $n / 2$
+    \item The total time complexity of each call is dominated by the select median $\implies \in O(n \cdot logn)$
+\end{enumerate}
+
+By the master theorem:
+
+\begin{eqnarray*}
+    f(n) &=& n \cdot log(n) \\
+    &\in& \Omega(n^{log_b(a)}) = \Omega(1) \\
+    &\implies& T(n) \in O(f(n))
+\end{eqnarray*}
+
+Thus, the total runtime complexity is $O(n\cdot logn)$
+
+
+
 
 % MARK: Question 4
 \newpage
