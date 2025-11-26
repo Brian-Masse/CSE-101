@@ -32,7 +32,7 @@
 }
 
 \title{CSE 101 Homework 6}
-\author{Brian Masse, Kreshiv Chawla, Taira Sakamoto, Emily Xie, Annabelle Coles}
+\author{Brian Masse, Taira Sakamoto, Emily Xie, Annabelle Coles}
 \date{November 25, 2025}
 
 \begin{document}
@@ -87,19 +87,27 @@ $a = 1, b = 4, d = 0 \implies a = b^d \implies T(n) \in O(n^d \cdot logn) = O(lo
 
 \-\
 \item $T(n) = (\log n) T(\lfloor n/2 \rfloor ), n \ge 2; T(1)=c$.
-The master theorem does not apply. The master theorem requires a recurrence of the form aT(n/b) + f(n) where a and b are constants and a = (log n) depends on n.
 
+The master theorem does not apply. ($logn$ not constant). Solving via Recurrence:
 \begin{flalign*}
-&1: (\log n),T(n/2) &\
-&2: (\log n),(\log (n/2)),T(n/4) &\
-&3: (\log n),(\log (n/2)),(\log (n/4)),T(n/8) &\
-&\vdots &\
-&k: \displaystyle\left(\prod_{i=0}^{k-1}\log!\left(\frac{n}{2^i}\right)\right);T!\left(\frac{n}{2^k}\right) &
+    &1: (logn)\cdot T(\lfloor n / 2 \rfloor) \\
+    &2: log(n)\cdot log(\lfloor n / 2 \rfloor) \cdot T(\lfloor n / 4 \rfloor) \\
+    \vdots \\
+    &k: \prod_{i=0}^{k-1} ( log( \lfloor n / {2^i} \rfloor ) )  \cdot T(\lfloor n / 2^k\rfloor)&
 \end{flalign*}
 
-Solving for the value of k that yields $T(1):$
-$n/(2^k) = 1 \implies k = \log_2(n)$. Thus,
-\[ T(n) = c \cdot (log_2(n))! \in O(2^{n/3})\]
+$n / 2^k = 1 /\implies 2^k = n \implies k = log_2(n)$
+
+\begin{eqnarray*}
+    T(n) &=& \prod_{i = 0}^{log_2(n) - 1} log(n / 2^i) \cdot c \\
+    &=& \prod_{i = 0}^{log_2(n) - 1} ( logn - i\cdot log(2) ) \cdot c \\
+    &=& \prod_{i = 0}^{k - 1} ((k - i) \cdot log(2)) \cdot c \\
+    &=& k! \cdot (log2) ^ k \cdot c \\
+    &=& (log_2(n))! \cdot (log2) ^ {log_2(n)} \cdot c \\
+    &\in& O(log_2(n)! \cdot (log2) ^ {log_2(n)})
+\end{eqnarray*}
+
+
 \end{enumerate}
 
 % MARK: Question 2
@@ -524,7 +532,7 @@ Once array lengths are above around 300 elements, the Karatsuba algorithm perfor
 
 Graph comparing Hybrid multiplication algorithm with different T thresholds:
 
-\includegraphics[width=100mm]{hybrid algorithm times.png}
+\includegraphics[width=100mm]{hybrid algorithm.png}
 
 From this experiment, it shows that with a smaller number of coefficients < 300, the quadratic algorithm $O(n^2)$ performs faster than Karatsuba. However, once the number of coefficients exceeds this, the Karatsuba algorithm performs better. Using the hybrid algorithm, the run times of the algorithms converge as the number of coefficients increase. By setting different thresholds T, we see that the run time continually increase at the same rate as Karatsuba. 
 
