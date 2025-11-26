@@ -90,16 +90,16 @@ $a = 1, b = 4, d = 0 \implies a = b^d \implies T(n) \in O(n^d \cdot logn) = O(lo
 The master theorem does not apply. The master theorem requires a recurrence of the form aT(n/b) + f(n) where a and b are constants and a = (log n) depends on n.
 
 \begin{flalign*}
-&1: (\log n),T(n/2) &\
-&2: (\log n),(\log (n/2)),T(n/4) &\
-&3: (\log n),(\log (n/2)),(\log (n/4)),T(n/8) &\
-&\vdots &\
-&k: \displaystyle\left(\prod_{i=0}^{k-1}\log!\left(\frac{n}{2^i}\right)\right);T!\left(\frac{n}{2^k}\right) &
+&1: (\log n),T(n/2) &\\
+&2: (\log n),(\log (n/2)),T(n/4) &\\
+&3: (\log n),(\log (n/2)),(\log (n/4)),T(n/8) &\\
+&k: \displaystyle\left(\prod_{i=0}^{k-1}\log\left(\frac{n}{2^i}\right)\right) T\left(\frac{n}{2^k}\right) &
 \end{flalign*}
 
 Solving for the value of k that yields $T(1):$
 $n/(2^k) = 1 \implies k = \log_2(n)$. Thus,
-\[ T(n) = c \cdot (log_2(n))! \in O(2^{n/3})\]
+\[ T(n) = c \cdot (\log_2 n)! \in O\big((\log n)!\big). \]
+
 \end{enumerate}
 
 % MARK: Question 2
