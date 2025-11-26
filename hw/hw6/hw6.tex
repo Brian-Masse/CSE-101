@@ -7,6 +7,7 @@
 % for code snippets
 \usepackage{listings}
 \usepackage{color}
+\usepackage{graphicx}
 
 \definecolor{dkgreen}{rgb}{0.5,0.65,0.5}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -455,6 +456,77 @@ quadratic algorithm and hybrid, 2 points for running experiment with
 adequate variety of input sizes and 2 points
 for clearly presenting results. 6 points for conclusions 
 based on comparing results.)
+
+Programming language: Python 3.11. Packages: Numpy, Matplotlib, Time. Computer: Macbook pro. 
+
+Functions:
+\-\ \newline 
+\begin{lstlisting}
+def quadratic_time_algorithm(A, B, n):
+    start = time.time()
+    out = np.zeros(2*n-1)
+
+    for i in range(n):
+        for j in range(n):
+            out[i+j] += A[i]* B[j]
+    time_taken = time.time() - start
+    return out, time_taken
+
+def karatsuba_algorithm(A, B, n):
+    start = time.time()
+    if n == 1:
+        return [A[0] * B[0]], 0
+    
+    size = int(n//2)
+    
+    p_h = A[:size]
+    p_l = A[size:]
+
+    q_h = B[:size]
+    q_l = B[size:]
+
+    r_x, t = karatsuba_algorithm(p_h, q_h, size)
+    s_x, t = karatsuba_algorithm(p_l, q_l, size)
+    t_x, t = karatsuba_algorithm(([p_h[i] + p_l[i] for i in range(size)]), ([q_h[i] + q_l[i] for i in range(size)]), size)
+
+    r_3 = [t_x[i] - r_x[i] - s_x[i] for i in range(len(t_x))]
+                   
+    out = np.zeros(2*n-1)
+
+    for i, val in enumerate(r_x):
+        out[i] += val
+    
+    for i, val in enumerate(r_3):
+        out[size + i] += val
+    
+    for i, val in enumerate(s_x):
+        out[2 * size + i] += val
+
+    time_taken = time.time() - start
+
+    return out, time_taken
+
+
+def hybrid_algorithm(A, B, n, T):
+  if (n <= T):
+    return quadratic_time_algorithm(A, B, n)
+  else:
+    return karatsuba_algorithm(A, B, n)
+\end{lstlisting}
+
+To quantify the runtimes, we ran each algorithm with array sizes with powers of 2 in range $(2^4, 2^{14})$. 
+
+Graph comparing Karatsuba and quadratic multiplication algorithms:
+
+\includegraphics[width=90mm]{karatsuba vs quadratic.png}
+
+Once array lengths are above around 300 elements, the Karatsuba algorithm performs faster than the quadratic algorithm. 
+
+Graph comparing Hybrid multiplication algorithm with different T thresholds:
+
+\includegraphics[width=100mm]{hybrid algorithm times.png}
+
+From this experiment, it shows that with a smaller number of coefficients < 300, the quadratic algorithm $O(n^2)$ performs faster than Karatsuba. However, once the number of coefficients exceeds this, the Karatsuba algorithm performs better. Using the hybrid algorithm, the run times of the algorithms converge as the number of coefficients increase. By setting different thresholds T, we see that the run time continually increase at the same rate as Karatsuba. 
 
 
 
