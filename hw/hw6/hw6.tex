@@ -47,8 +47,44 @@
 
 \begin{enumerate}
 \item $T(n) = 4T(\lfloor n/4 \rfloor) + cn^3, n \ge 2,    T(1) = c$
+
+The master theorem applies.
+
+\begin{eqnarray*}
+    T(n) &=& 4T(\lfloor n/4 \rfloor) + cn^3 \\
+    &\in& 4T(n/4) + O(n^3)
+\end{eqnarray*}
+
+$a = 4, b = 4, d = 3 \implies a < b^d \implies T(n) \in O(n^3)$
+
+\-\
 \item $T(n) = 2*T(n-3 )$ for $n \ge 4$, $T(1)=c$
+
+The master theorem does not apply.
+\begin{flalign*}
+    &1: 2T(n-3) \\
+    &2: 2\cdot 2T(n-6)& \\
+    \vdots
+    &k: 2^k \cdot T(n - 3k)&
+\end{flalign*}
+
+Solving for the value of k that yields $T(1):$
+$n - 3k = 1 \implies k = 1/3(n - 1)$. Thus,
+\[ T(n) = c \cdot 2 ^ {1/3(n - 1)} \in O(2^{n/3})\]
+
+\-\
 \item $T(n) =  T(\lfloor n/4 \rfloor) + c,  T(1) = c$
+
+The master theorem applies.
+
+\begin{eqnarray*}
+    T(n) &=& T(\lfloor n/4 \rfloor) + C \\
+    &\in& T( n / 4) + O(1)
+\end{eqnarray*}
+
+$a = 1, b = 4, d = 0 \implies a = b^d \implies T(n) \in O(n^d \cdot logn) = O(logn)$
+
+\-\
 \item $T(n) = (\log n) T(\lfloor n/2 \rfloor ), n \ge 2; T(1)=c$.
 \end{enumerate}
 
@@ -182,7 +218,7 @@ For example, if the list had elements $(2,.1), (4,.2), (-3, .2),(1,.4), (5,.1)$,
 Give an efficient algorithm (faster than sorting the list) to compute a weighted
 median. 
 
-% MARK: Q3 Answers
+% MARK: Q3.a
 \-\ \newline 
 \begin{lstlisting}
 // pass in the list of pairs, the size of the list, and half the total weight
@@ -221,7 +257,7 @@ weighted_median(list L, size n, WM):
         return weighted_median(WR, WR.size(), WM)
 \end{lstlisting}
 
-
+% MARK: Q3.b
 \emph{Short Correctness Proof}
 
 The algorithm recursively calls the select median algorithm discussed in class. It is assumed that, for any set, it correctly returns the median. Once the median is found, the algorithm uses it as a pivot to create 3 partitions: values less than the median, equal to the median, and greater than the median, and calculates the total weight of each partition. 
@@ -238,6 +274,7 @@ There are 2 outcomes:
     \emph{Note: A recursive call will never contain an empty set. If there are no numbers above or below the median returned by select, that number is the weighted median.}
 \end{itemize}
 
+% MARK: Q3.c
 \emph {Analysis / Efficiency}
 
 This algorithm can be determined using the master theorem. First note:
@@ -278,7 +315,106 @@ Thus, the total runtime complexity is $O(n\cdot logn)$
 A subset $S$ of vertices in an undirected graph is an {\em independent
 set} if it doesn't contain both ends of any edge.  If we assign every vertex a weight $w(x) >0$ , the {\em maximum weight independent set} is to find the independent set of the graph that has maximum possible
 total weight of its vertices.  While the maximum weight independent set problem is $NP$-hard, some special cases can be solved efficiently. In particular, consider the special case when the underlying graph is a complete binary tree of depth $k$, so $|V|=2^{k+1}-1$.  Give a divide-and-conquer algorithm for
-this problem that runs in polynomial time. (Hint: have your algorithm return not just the weight of the maximum weighted independent set, but both of the values for the two cases, the root is in $S$ and the root is not in $S$.  This problem can be solved using dynamic programming, but it is not required and the dynamic programming solution will not be given any credit for this assignment.) (5 points clear algorithm description, 5 points for short correctness argument, 5 points for correct time analysis, and 5 points for efficiency; the best algorithm is $O(|V|)$ time.)
+this problem that runs in polynomial time. (5 points clear algorithm description, 5 points for short correctness argument, 5 points for correct time analysis, and 5 points for efficiency; the best algorithm is $O(|V|)$ time.)
+
+% MARK: Q4.a
+\begin{lstlisting}
+// pass in the starting node. In the specialized problem, this will always be the root. 
+// The function returns 2 things:
+//   1. The highest weight independent set with the root
+//   2. The highest weight independent set without the root
+// The answer is the set with the larger weight at the end. 
+def WeightedSets(node):
+
+    if node has no children:
+        return ( [node], [] )
+
+    if node has 1 child:
+        return ( [node], [child] )
+    
+    left_result = WeightedSets(leftChild)
+    right_result = WeightedSets(rightChild)
+
+    with_left = left_result[0]; without_left = left_result[1]
+    with_right = right_result[0]; without_right = right_result[1]
+
+    with_node = [], without_node = []
+
+    // Generate the optimal set containing the current node
+    with_node += without_left + without_right + node
+
+    // generate the optimal set without the current node
+    if weight(with_right) > weight(without_right):
+        without_node += with_right
+    else:
+        without_node += without_right
+    if weight(with_left) > weight(without_left):
+        without_node += with_left
+    else:
+        without_node += without_left
+    
+    return with_node, without_node
+
+// calculate the actual maxiumum independent set
+result = WeightedSets(root)
+max_set = max(weight(result[0]), weight(result[1]))
+
+\end{lstlisting}
+
+% MARK: Q4.b
+\emph{Short Correctness Proof}
+
+This algorithm can be proved via induction on the size on the input. 
+
+Base Case:
+\begin{itemize}
+    \item n = 1. 
+    
+    There is only one node. The algorithm returns a set containing the node and an empty set. The non-empty set is trivially the max independent set.
+
+    \item n = 2
+    
+    There are 2 nodes, 1 with 1 child. The algorithm returns 2 sets each with one of the nodes. The set with the bigger weight is trivially the max independent set.
+\end{itemize}
+
+Induction step:
+
+Assume that for any tree of size $n - 1, n > 2$ the algorithm returns the largest sets with and without the root node. Then for an input of size n:
+
+\begin{itemize}
+    \item Returning the largest set with the node
+    
+    In this case, it is not possible to include either of the node's children, since that would complete the edge. Given that all weights are positive, the largest weight this set could have is te union of $without\_left$ and $without\_right$
+
+    \item Returning the largest set without the node
+    
+    In this case, it is possible to include or not include either of the node's children. Thus the answer will be the union of the biggest set on the left (with or without the left child), and the biggest set on the right (with or without the right child)
+
+\end{itemize}
+
+Thus for an input of size n, the function returns the largest set for both cases, and thus the largest independent set. 
+
+% MARK: Q4.c
+\-\ \newline
+\emph{Time Analysis / Efficiency}
+
+The time complexity of this problem can be solved via the master theorem. Note:
+
+\begin {itemize}
+    \item The runtime of each subroutine is $O(1)$. 
+    
+    \-\ \newline
+    \emph{ Note: It may be more than O(1) to find the weight of a set. However, it is trivially easy modify the algorithm to build up and return the weight of the 2 sets with each function call to avoid having to compute the weight from the set itself. }
+
+    \-\
+    \item Each call generates, at most, 2 sub problems.
+    \item Each sub problem is roughly $n/2$ big.
+\end {itemize}
+
+This implies that total runtime, $T(n)$ is:
+\[T(n) = 2 \cdot T(n / 2) + O(1)\]
+
+By the master theorem: $2 = a > b^d = 2^0 = 1 \implies T(n) \in O(n ^ {log_b(a)}) = O(n^1) = O(n) = O(|V|)$
 
 % MARK: Question 5
 \newpage
