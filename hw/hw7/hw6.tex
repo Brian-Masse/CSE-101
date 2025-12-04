@@ -1,0 +1,97 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage[left=0.6in, right=0.6in, top=1in, bottom=1in]{geometry}
+
+% for code snippets
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+
+\definecolor{dkgreen}{rgb}{0.5,0.65,0.5}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{code_blue}{rgb}{0.10,0.27,0.92}
+\definecolor{str_red}{rgb}{0.87,0.2,0.14}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{code_blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{str_red},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\title{CSE 101 Homework 7}
+\author{Brian Masse, Taira Sakamoto, Emily Xie, Annabelle Coles}
+\date{December 4, 2025}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\begin{enumerate}
+
+% MARK: Question 1
+\newpage
+\item \textbf{Bus routes}
+
+I am going by bus across town, along a path that includes bus stops $1...m$.  There are $n$ different bus routes $BR_1$ ...$BR_n$, where $BR_i$ goes along my route between stop $s_i$ to stop $f_i$, and costs $c_i$ to ride. I want to go from stop 1 to stop $m$ paying the smallest total amount as I can. You can assume there will always be a later bus for each route passing each stop.
+
+$BTBusCosts(BR_1..BR_n;current; m)$
+\begin{enumerate}
+\item IF $current \ge m$ return $0$.  
+\item $Best=$ infinity;
+\item FOR $I=1$ to $n$ do:
+\item ~~~IF $s_i \le current < f_i$ 
+\item ~~~~~THEN $Best= min(Best, c_i+ BTBusCosts(BR_1...BR_n; f_i; m)$.
+\item Return $Best$
+\end{enumerate}
+
+
+% MARK: Question 2
+\newpage
+\item \textbf{Bounded difference sequence}
+
+We say a sequence of numbers $a_1,..a_n$ is $K$-bounded difference if $|a_{i+1}-a_i| \le K$ for all $1 \le i \le n-1$. The maximum bounded difference subsequence problem is,  given sequence $a_1,..a_n$ , and a real number $K > 0$, decide the length $\ell$ of the longest subsequences $a_{i_1},..a_{i_{\ell}}$, $1 = i_1 < i_2 <...i_{\ell}$
+including position one which is $K$-bounded difference.
+
+For example, if $a[1..5]= 2,7,1, 4,3$ and $K=2$, $2, 1, 3$ is a maximum length
+$K$ bounded subsequence, as is $2, 4, 3$.
+
+
+% MARK: Question 3
+\newpage
+\item \textbf{Minimum weight connected subtree of given size}
+
+You are given a binary tree of size $n$, where every vertex $x$ has pointers $lc.x$, and  $rc.x$ (which could be NIL if those children don't exist) and each vertex has a value, $value.x > 0$. You are also given an integer $1 \le k \le n$.  You want to find the connected sub-tree with exactly $k$ vertices, which minimizes the total weight of vertices in the sub-tree. 
+
+
+% MARK: Question 4
+\newpage
+\item \textbf{Road trip}
+
+You are going on a long trip. You start on the road at mile post 0. Along the way there are $n$ hotels, at mile posts $a_1 < a_2 < \cdots < a_n$, where each $a_i$ is measured from the starting point. The only places you are allowed to stop are at these hotels, but you can choose which of the hotels you stop at. You must stop at the final hotel (at distance $a_n$), which is your destination.
+
+You'd ideally like to travel 200 miles a day, but this may not be possible (depending on the spacing of the hotels). If you travel $x$ miles during a day, the {\it penalty} for that day is $(200 - x)^2$. You want to plan your trip so as to minimize the total penalty---that is, the sum, over all travel days, of the daily penalties.
+
+
+% MARK: Question 5
+\newpage
+\item \textbf{Knapsack variant}
+
+Consider the variant of knapsack where you are allowed to choose items more than once. You still have $n$ items each with values $v_i$ and costs $c_i$, and a budget $U$.  If you pick item $i$ $p_i$ times, you must have $\sum_{1 \le i \le n} p_i c_i \le U$, and your objective is to maximize $\sum_{1 \le i \le n} p_i v_i$.  Each $p_i$ must be a non-negative integer.
+
+\end{enumerate}
+\end{document}
+
