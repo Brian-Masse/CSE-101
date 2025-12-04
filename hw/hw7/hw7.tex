@@ -425,6 +425,63 @@ You are going on a long trip. You start on the road at mile post 0. Along the wa
 
 You'd ideally like to travel 200 miles a day, but this may not be possible (depending on the spacing of the hotels). If you travel $x$ miles during a day, the {\it penalty} for that day is $(200 - x)^2$. You want to plan your trip so as to minimize the total penalty---that is, the sum, over all travel days, of the daily penalties.
 
+\begin{enumerate} 
+\item Sub-problems:
+\begin{itemize}
+    \item Each subproblem represents the next hotels we can stop at after our current hotel. 
+    \item Each subproblem has some $a_i,...a_n$ and returns the lowest cost path from $i$ to $n$. Each subproblem contains the same set of hotels.
+    \item The solutions to each subproblem can be stored in an array, $TravelPenalty[]$, of length $n$, where $TravelPenalty[i] = $ the minimum penalty to reach this hotel; this penalty is the minimum sum for all travel days taken after hotel $a_i$. 
+    
+\end{itemize}
+
+\item Base Case: 
+\begin{itemize}
+\item The base case is when  $i==n$, i.e. the subproblem where the start position is the final hotel. $TravelPenalty[n] = 0$
+\end{itemize}
+\item Recursive definition:
+\begin{itemize}
+    \item If we are not at our final destination (the base case), our next hotel stop after $a_i$ is some $a_j$. Because we can only travel forwards, we know $i < j \leq n$. If we stop at $a_j$, the penalty for this travel day is stored in  $TravelPenalty[j] = (200 - (a_i-a_j))^2$. To find the penalty for $i$: $TravelPenalty[i] = min_{i+1\leq j<n}(200 - (a_i-a_j))^2 + TravelPenalty[j]$.
+\end{itemize}
+\item Order in which sub-problems are solved:
+\begin{itemize}
+    \item Because we can only travel forwards, we need to fill the array in reverse order i.e. starting at $ i =n-1$ to $i=1$. 
+\end{itemize}
+
+\item Form of output (how do we get the final answer?):
+\begin{itemize}
+    \item The final answer is given by $TravelPenalty[0]$ as we fill the array in reverse order, so this will be the minimum penalty to travel $n$ miles to the final destination $a_n$.  
+\end{itemize}
+
+\item Pseudocode:
+\begin{itemize}
+\item $a_0=0$.
+\item Initialize $TravelPenalty[0..n]$.
+\item $TravelPenalty[n]=0$
+\item FOR $I=n-1$ down to $1$ do:
+\item ~~~$MinPenalty = \infty$
+\item ~~~FOR $J=I+1$ to $n$ do:
+\item ~~~~~$MinPenalty= min(MinPenalty, (200-a_I+a_J)^2 + TravelPenalty[J])$.
+\item~~~~$TravelPenalty[I]=MinPenalty$
+\item Return $TravelPenalty[0]$.
+\end{itemize}
+
+\item Runtime analysis:
+\begin{itemize}
+    \item There are two nested for loops, so the runtime is quadratic $O(n^2)$.
+\end{itemize}
+\item Small example:
+
+Let there be a 500 mile road trip. There are hotels at miles [25,150,400,500]. The final stop is mile 500. To find the minimum travel penalty:
+\begin{itemize}
+    \item $TravelPen[4] = 0$
+    \item $TravelPen[3] = (200-(500-400))^2 + TravelPen[4] = 10000 + 0 = 10000$
+    \item $TravelPen[2] = min( (200-25)^2+ TravelPen[3] , (200-(500-150))^2 +TravelPen[4]) = min(30625+10000, 22500) = 22500$
+    \item $TravelPen[1] = min((200-(150-25))^2 + TravelPen[2] + TravelPen[3]), (200-(500-25))^2) + TravelPen[4] = min(5625+22500+10000, 75625) = 38125$
+    \item $TravelPen[0] = min((200-25)^2 + TravelPen[1], (200-150)^2+TravelPen[2], (200-400)^2+TravelPen[3], (200-500)^2 + TravelPen[4] = min(68750,25000,50000,90000)) = 25000$.
+The route with the lowest penalty is to stop at hotel 2 (mile 150) and hotel 3 (mile 400). The penalty for the first travel day is 1500, and the penalty for the second travel day is 22500.
+
+\end{itemize}
+\end{enumerate}
 
 % MARK: Question 5
 \newpage
