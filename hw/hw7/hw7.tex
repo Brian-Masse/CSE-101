@@ -195,6 +195,124 @@ $K$ bounded subsequence, as is $2, 4, 3$.
 
 You are given a binary tree of size $n$, where every vertex $x$ has pointers $lc.x$, and  $rc.x$ (which could be NIL if those children don't exist) and each vertex has a value, $value.x > 0$. You are also given an integer $1 \le k \le n$.  You want to find the connected sub-tree with exactly $k$ vertices, which minimizes the total weight of vertices in the sub-tree. 
 
+\begin{enumerate}
+    % MARK: Q3.a
+    \item Characterize Sub Problems
+    
+    Find the size and weight of every subtree within the initial tree. If the tree has k nodes, compare the weight of that tree to the running minimum. 
+
+    The set of all distinct subproblems, $S$, = the subtrees starting at every distinct node $v \in V$. This implies there are $|S| = |V| = n$ distinct subproblems
+
+    % MARK: Q3.b
+    \-\
+    \item Base Case
+    
+    The root of the subtree has no children (the subtree is 1 node). 
+    \begin{itemize}
+        \item $size = 1$
+        \item $weight = value.v$
+    \end{itemize}
+
+    % MARK: Q3.c
+    \-\
+    \item Recursive Definition of Answers
+    
+    If $|v.children| = 0:$
+    \begin{eqnarray*}
+        weight[v] &=& value.v \\
+        size[v] &=& 1
+    \end{eqnarray*}
+
+    If $|v.children| = 1:$
+    \begin{eqnarray*}
+        weight[v] &=& value.v + weight[v.child] \\
+        size[v] &=& 1 + size[v.child]
+    \end{eqnarray*}
+
+    else:
+    \begin{eqnarray*}
+        weight[v] &=& value.v + weight[lc.v] + weight[rc.v] \\
+        size[v] &=& 1 + size[lc.v] + size[rc.v]
+    \end{eqnarray*}
+
+    Brief Justification: For each subtree subproblem, there are 3 possibilities:
+    \begin{itemize}
+        \item The root of the subtree has no children. In this case the size of the subtree is just 1, and its weight is just the weight of its root. There is no recursive relationship, and thus the return values do not depend on the memoized array.
+        
+        \-\
+        \item The root of the subtree has 1 child. In this case the size of the subtree is 1 + the size of the root's only child, and the weight it the weight of root + the weight of its child. In this case, the current solution depends on the return values of its only child, thus the call to $weight[v.child]$ and $size[v.child]$
+        
+        \-\
+        \item The root of the subtree has 2 children. In this case the size of the subtree is 1 + the size of each of the subtrees rooted at its children, and its weight is the weight of the root + the weight of those subtreets. The solution depends on the return values of both the left and right child. 
+    \end{itemize}
+
+    Therefore, the above recurrence covers the only 3 possibly cases for each subtree in the graph. 
+
+    % MARK: Q3.d
+    \-\
+    \item Subproblem Order
+    
+    The subproblem originating at node $v$ must come after the subproblems originating at its children. Therefore, subproblems must be solved in a post-order traversal (both children before their parents. )
+
+    % MARK: Q3.e
+    \-\
+    \item Form of Output
+    
+    While calculating the weight of each subtree, keep track of the smallest weight. For those with node count = $k$, check if its weight it lower than the current smallest. After scanning through all subtrees, return the smallest. 
+
+
+    \emph{Note: Alternatively, keep track of node v where the smallest subtree occurs to return not just the smallest weight, but the root of the subtree too.}
+
+    % MARK: Q3.f
+    \-\
+    \item Pseudocode
+    
+    \begin{lstlisting}
+    def MWCS(root, k) -> smallest:
+
+    // if a subtree does not contain k nodes (ie. does not satisfy constraints of potential solution)
+    // return infinity
+    smallest = infinity
+
+    for v in (post-order traverse root):
+        if |v.children| == 0:
+            weight[v] = v.value
+            size[v] = 1
+        
+        if |v.children| == 1:
+            weight[v] = v.value + weight[v.child]
+            size[v] = 1 + size[v.child]
+
+        else:
+            weight[v] = v.value + weight[lc.v] + weight[rc.v]
+            size[v] = 1 + size[lc.v] + size[rc.v]
+        
+        // attempt to update the variable for subtrees satisfying problem constraints
+        if size[v] == k:
+            smallest = min(smallest, weight[v])
+    
+    return smallest
+    \end{lstlisting}
+
+    % MARK: Q3.g
+    \-\ 
+    \item Runtime Analysis
+    
+    \begin{itemize}
+        \item Post-traversal $\in O(n)$
+        \item Runtime for each node: $\in O(1)$
+    \end{itemize}
+
+    Thus, total runtime $\in O(n)$
+
+    % MARK: Q3.h
+    \-\
+    \item Small Example
+
+    \includegraphics[width=0.7\textwidth]{src/Q3J.jpg}
+
+\end{enumerate}
+
 
 % MARK: Question 4
 \newpage
