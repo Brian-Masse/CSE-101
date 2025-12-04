@@ -199,11 +199,13 @@ $K$ bounded subsequence, as is $2, 4, 3$.
     
     Let $L[i]$ be the length of the longest $K$-bounded difference subsequence that ends at index $i$ and specifically includes position 1 (i.e., the subsequence must start at $a_1$).
 
+    \-\
     \item \textbf{Base Case(s)}
     
     $$L[1] = 1$$
     The subsequence ending at index 1 is simply the single-element sequence $\{a_1\}$, which has a length of 1.
 
+    \-\
     \item \textbf{Recursive definition of answers (with justification)}
     
     For $i > 1$:
@@ -217,15 +219,18 @@ $K$ bounded subsequence, as is $2, 4, 3$.
     \end{enumerate}
     If these conditions are met, we can extend the sequence from $j$ by appending $a_i$. If no such $j$ exists, $L[i]$ remains 0, indicating the chain is broken. We take the maximum to ensure optimality.
 
+    \-\
     \item \textbf{Order in which sub-problems are solved}
     
     We solve for $L[i]$ in increasing order of $i$, from $i = 2$ to $n$. This ensures that when computing $L[i]$, the values for all potential predecessors $L[1], \dots, L[i-1]$ are already available.
 
+    \-\
     \item \textbf{Form of output}
     
     The final answer is the maximum value in the array $L$:
     $$\text{Result} = \max_{1 \le i \le n} (L[i])$$
 
+    \-\
     \item \textbf{Pseudocode}
     
     \begin{algorithmic}[1]
@@ -250,6 +255,7 @@ $K$ bounded subsequence, as is $2, 4, 3$.
     \EndFunction
     \end{algorithmic}
 
+    \-\
     \item \textbf{Runtime analysis}
     
     \begin{itemize}
@@ -257,6 +263,7 @@ $K$ bounded subsequence, as is $2, 4, 3$.
         \item Space complexity: $O(n)$. We utilize a single array $L$ of size $n$ to store the sub-problem solutions.
     \end{itemize}
 
+    \-\
     \item \textbf{A small example explained}
     
     Input: $A = [2, 7, 1, 4, 3]$, $K = 2$.
@@ -282,6 +289,8 @@ $K$ bounded subsequence, as is $2, 4, 3$.
     \end{itemize}
     
     \textbf{Result:} The maximum value in $L$ is \textbf{3}.
+
+\end{enumerate}
 
 % MARK: Question 3
 \newpage
@@ -422,6 +431,89 @@ You'd ideally like to travel 200 miles a day, but this may not be possible (depe
 \item \textbf{Knapsack variant}
 
 Consider the variant of knapsack where you are allowed to choose items more than once. You still have $n$ items each with values $v_i$ and costs $c_i$, and a budget $U$.  If you pick item $i$ $p_i$ times, you must have $\sum_{1 \le i \le n} p_i c_i \le U$, and your objective is to maximize $\sum_{1 \le i \le n} p_i v_i$.  Each $p_i$ must be a non-negative integer.
+
+\begin{enumerate}
+    \item Characterize Subproblem
+    
+    Let $I_1,..I_n$ be the set of objects ordered by non-increasing value of cost ratio: $v_i / c_i$
+
+    \-\ \newline
+    Each subproblem is given some suffix of this array with the budget leftover after attempting to maximize the selection of all higher valued $I_1, I_2, ...$. For example, subproblem $j$ is given the set of object $(I_j,..I_n)$ and budget $U - \sum_{1 \le i<j} p_i\cdot c_i $
+
+    \-\ \newline
+    Then, the set of subproblems is all subsets $u_j,...u_n | 1 \le j \le n$ and the empty set. Therefore the set of all unique subproblems, $S$, $\implies |S| = n + 1$
+
+    \-\
+    \item Base Case
+    
+    $U = 0 \implies p_j,...p_n = 0$
+
+    \-\
+    \item Recursive Definition
+    
+    Let the remaining budget after selecting $p_j$ of item $I_j$ be stored in a list $U'$:
+    \begin{eqnarray*}
+        P[i] &=& \lfloor U'[i - 1] / c_i \rfloor \\
+        V[i] &=& V[i - 1] + P[i] \cdot v_i \\
+        U'[i] &=& U'[i - 1] - P[i] \cdot c_i
+    \end{eqnarray*}
+
+    Brief Explanation of Correctness:
+
+    The above definition uses the fact that the best solution always starts by trying to maximize the items with the best value / cost ratio. Whatever budget is leftover after maximizing item $I_j$ should try to be spent on maximizing the next best item, item $I_{j+1}$. Specifically:
+    \begin{itemize}
+        \item $p_j$ is just the most of item $I_j$ we can currently afford with the leftover budget ($U'[j - i]$)
+        \item the total value after picking all items $I_j$ is the previous value $(V[j -1])$ + the new value from item j ($p_j * v_j$)
+        \item The new leftover budget is the old leftover budget $(U'[j-1])$ - the cost of item j $(p_j * c_j)$
+    \end{itemize}
+
+    \-\
+    \item Solution Order:
+    
+    Start at the most valuable and iterate to the least valuable until the budget is completely used or there are no more items. 
+
+    \-\
+    \item Form of Output
+    Either return $V[n]$ for the maximized value, or return $P$ for the total amounts of each item. 
+
+    \-\
+    \item Pseudocode
+
+    \begin{lstlisting}
+    def KV(I1,...In, U):
+
+    sort (I1,...In) by the value ratio of each item
+
+    // create memoized arrays
+    U' = [infinity]; U'[0] = U
+    V = [0]
+    P = [0]
+
+    // loop through each item
+    for Ii in I1,...In:
+        
+        // if the previous item fully depleted the budget, all remaining item counts are 0
+        // and the function should return
+        if U'[i - 1] == 0: 
+            break
+
+        P[i] = floor( U'[i-1] / ci )
+        V[i] = V[i - 1] + P[i] * vi
+        U'[i] = U'[i - 1] - P[i] * ci
+
+    return P
+    \end{lstlisting}
+
+    \-\
+    \item Time Analysis
+    \begin{itemize}
+        \item Sorting $\in O(n\cdot logn)$
+        \item Loop: $\in O(n) \cdot O(1) \in O(n)$
+    \end{itemize}
+
+    Therefore, the total runtime is $O(n \cdot logn)$
+
+\end{enumerate}
 
 \end{enumerate}
 \end{document}
