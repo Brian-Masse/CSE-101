@@ -101,6 +101,9 @@ Solving the recurrence relation with base case $T(1) = 1$
     &\le& x!
 \end{eqnarray*}
 
+Thus, as a function of m, an upperbound for the number of recursive calls is given by $m!$
+
+\-\ \newline
 Supplemental Diagram:
 
 \includegraphics[width=0.65\textwidth]{src/Q1B.png}
@@ -345,7 +348,7 @@ You are given a binary tree of size $n$, where every vertex $x$ has pointers $lc
         \item The root of the subtree has no children. In this case the size of the subtree is just 1, and its weight is just the weight of its root. There is no recursive relationship, and thus the return values do not depend on the memoized array.
         
         \-\
-        \item The root of the subtree has 1 child. In this case the size of the subtree is 1 + the size of the root's only child, and the weight it the weight of root + the weight of its child. In this case, the current solution depends on the return values of its only child, thus the call to $weight[v.child]$ and $size[v.child]$
+        \item The root of the subtree has 1 child. In this case the size of the subtree is 1 + the size of the root's only child, and the weight is the weight of root + the weight of its child. In this case, the current solution depends on the return values of its only child, thus the call to $weight[v.child]$ and $size[v.child]$
         
         \-\
         \item The root of the subtree has 2 children. In this case the size of the subtree is 1 + the size of each of the subtrees rooted at its children, and its weight is the weight of the root + the weight of those subtreets. The solution depends on the return values of both the left and right child. 
@@ -520,7 +523,7 @@ Consider the variant of knapsack where you are allowed to choose items more than
 \begin{enumerate}
     \item Characterize Subproblem
     
-    Let $I_1,..I_n$ be the set of objects ordered by non-increasing value of cost ratio: $v_i / c_i$
+    Let $I_1,..I_n$ be the set of objects ordered by non-increasing value to cost ratio: $v_i / c_i$
 
     \-\ \newline
     Each subproblem is given some suffix of this array with the budget leftover after attempting to maximize the selection of all higher valued $I_1, I_2, ...$. For example, subproblem $j$ is given the set of object $(I_j,..I_n)$ and budget $U - \sum_{1 \le i<j} p_i\cdot c_i $
@@ -531,7 +534,7 @@ Consider the variant of knapsack where you are allowed to choose items more than
     \-\
     \item Base Case
     
-    $U = 0 \implies p_j,...p_n = 0$
+    $U = 0 \implies p_j,...p_n = 0$ (all remaining items have frequency 0)
 
     \-\
     \item Recursive Definition
@@ -547,7 +550,7 @@ Consider the variant of knapsack where you are allowed to choose items more than
 
     The above definition uses the fact that the best solution always starts by trying to maximize the items with the best value / cost ratio. Whatever budget is leftover after maximizing item $I_j$ should try to be spent on maximizing the next best item, item $I_{j+1}$. Specifically:
     \begin{itemize}
-        \item $p_j$ is just the most of item $I_j$ we can currently afford with the leftover budget ($U'[j - i]$)
+        \item $p_j$ is just the most of item $I_j$ we can currently afford with the leftover budget ($U'[j - 1]$)
         \item the total value after picking all items $I_j$ is the previous value $(V[j -1])$ + the new value from item j ($p_j * v_j$)
         \item The new leftover budget is the old leftover budget $(U'[j-1])$ - the cost of item j $(p_j * c_j)$
     \end{itemize}
@@ -559,6 +562,7 @@ Consider the variant of knapsack where you are allowed to choose items more than
 
     \-\
     \item Form of Output
+    
     Either return $V[n]$ for the maximized value, or return $P$ for the total amounts of each item. 
 
     \-\
@@ -599,6 +603,11 @@ Consider the variant of knapsack where you are allowed to choose items more than
     Therefore, the total runtime is $O(n \cdot logn)$
 
     The space complexity is $O(3n) \in O(n)$: There is a constant amount of data stored for each of the $n$ items.
+
+    \-\ 
+    \item Small Example
+    
+    \includegraphics[width=0.65\textwidth]{src/Q4J.png}
 
 \end{enumerate}
 
