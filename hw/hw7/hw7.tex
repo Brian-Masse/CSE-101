@@ -430,30 +430,49 @@ You'd ideally like to travel 200 miles a day, but this may not be possible (depe
 \begin{enumerate} 
 \item Sub-problems:
 \begin{itemize}
-    \item Each subproblem represents the next hotels we can stop at after our current hotel. 
-    \item Each subproblem has some $a_i,...a_n$ and returns the lowest cost path from $i$ to $n$. Each subproblem contains the same set of hotels.
+    \item Each subproblem represents finding the lowest-penalty path from the current hotel to the final hotel, $a_n$.
+    \item Each subproblem is given a suffix of the array of hotel positions, $a_i,...a_n | 1 \le i \le n$. This means there are $n$ distinct subproblems.
     \item The solutions to each subproblem can be stored in an array, $TravelPenalty[]$, of length $n$, where $TravelPenalty[i] = $ the minimum penalty to reach this hotel; this penalty is the minimum sum for all travel days taken after hotel $a_i$. 
     
 \end{itemize}
 
+\-\
 \item Base Case: 
-\begin{itemize}
-\item The base case is when  $i==n$, i.e. the subproblem where the start position is the final hotel. $TravelPenalty[n] = 0$
-\end{itemize}
+
+The base case is when  $i=n$, i.e. the subproblem where the start position is the final hotel. $TravelPenalty[n] = 0$
+
+\-\
 \item Recursive definition:
+    
+for $1 \le i < n:$
+
+~~~~$TravelPenalty[i] = min_{i+1\le j \le n}\big( (200 - (a_j-a_i))^2 + TravelPenalty[j] \big)$.
+
+\-\ \newline
+Brief Explanation of Correctness:
+
 \begin{itemize}
-    \item If we are not at our final destination (the base case), our next hotel stop after $a_i$ is some $a_j$. Because we can only travel forwards, we know $i < j \leq n$. If we stop at $a_j$, the penalty for this travel day is stored in  $TravelPenalty[j] = (200 - (a_i-a_j))^2$. To find the penalty for $i$: $TravelPenalty[i] = min_{i+1\leq j<n}(200 - (a_i-a_j))^2 + TravelPenalty[j]$.
+    \item If we choose to stop at some future hotel at $a_j$, $j > i$, the distance driven for that day is $x = a_j - a_i$. Thus the penalty for that day is $(200 - (a_j - a_i))^2$
+    \item The minimized penalty to get from the hotel at $a_j$ to the hotel at $a_n$ is already stored in $TravelPenalty[j]$
+    \item Thus, the total penalty of going from the hotel at $a_i$ to $a_n$ is $\big( (200 - (a_j-a_i))^2 + TravelPenalty[j] \big)$
+    \item Then, by minimizing this total penalty, we correctly find the smallest penalty to get form $i$ to $n$
 \end{itemize}
+
+\-\
 \item Order in which sub-problems are solved:
 \begin{itemize}
     \item Because we can only travel forwards, we need to fill the array in reverse order i.e. starting at $ i =n-1$ to $i=1$. 
 \end{itemize}
 
-\item Form of output (how do we get the final answer?):
-\begin{itemize}
-    \item The final answer is given by $TravelPenalty[0]$ as we fill the array in reverse order, so this will be the minimum penalty to travel $n$ miles to the final destination $a_n$.  
-\end{itemize}
+\-\
+\item Form of output:
 
+The final answer is given by $TravelPenalty[0]$, the minimized penalty of going from mile post 0 to mile post $n$.
+
+\-\ \newline
+\emph{To find the chain of hotels you must stop at, TraversalPenalty can be trivially modified to also store the next best hotel at each location. }
+
+\-\
 \item Pseudocode:
 \begin{itemize}
 \item $a_0=0$.
@@ -462,15 +481,20 @@ You'd ideally like to travel 200 miles a day, but this may not be possible (depe
 \item FOR $I=n-1$ down to $1$ do:
 \item ~~~$MinPenalty = \infty$
 \item ~~~FOR $J=I+1$ to $n$ do:
-\item ~~~~~$MinPenalty= min(MinPenalty, (200-a_I+a_J)^2 + TravelPenalty[J])$.
+\item ~~~~~$MinPenalty= min(MinPenalty, (200-a_J+a_I)^2 + TravelPenalty[J])$.
 \item~~~~$TravelPenalty[I]=MinPenalty$
 \item Return $TravelPenalty[0]$.
 \end{itemize}
 
+\-\
 \item Runtime analysis:
+
 \begin{itemize}
-    \item There are two nested for loops, so the runtime is quadratic $O(n^2)$.
+    \item Time complexity: $O(n^2)$. The algorithm uses two nested loops. The outer loop runs $n$ times, and the inner loop runs $i$ times. The total operations are proportional to $\sum_{i=1}^{n} i \approx \frac{n^2}{2}$.
+    \item Space complexity: $O(n)$. We utilize a single array $L$ of size $n$ to store the sub-problem solutions.
 \end{itemize}
+
+\-\
 \item Small example:
 
 Let there be a 500 mile road trip. There are hotels at miles [25,150,400,500]. The final stop is mile 500. To find the minimum travel penalty:
