@@ -410,6 +410,8 @@ You are given a binary tree of size $n$, where every vertex $x$ has pointers $lc
 
     Thus, total runtime $\in O(n)$
 
+    The space complexity is $O(n)$: There is a constant amount of data stored for each node. 
+
     % MARK: Q3.h
     \-\
     \item Small Example
@@ -432,7 +434,7 @@ You'd ideally like to travel 200 miles a day, but this may not be possible (depe
 \begin{itemize}
     \item Each subproblem represents finding the lowest-penalty path from the current hotel to the final hotel, $a_n$.
     \item Each subproblem is given a suffix of the array of hotel positions, $a_i,...a_n | 1 \le i \le n$. This means there are $n$ distinct subproblems.
-    \item The solutions to each subproblem can be stored in an array, $TravelPenalty[]$, of length $n$, where $TravelPenalty[i] = $ the minimum penalty to reach this hotel; this penalty is the minimum sum for all travel days taken after hotel $a_i$. 
+    \item The solutions to each subproblem can be stored in an array, $TravelPenalty[]$, of length $n$, where $TravelPenalty[i] = $ the minimum penalty from the hotel at $a_i$ to the final hotel.
     
 \end{itemize}
 
@@ -595,6 +597,8 @@ Consider the variant of knapsack where you are allowed to choose items more than
     \end{itemize}
 
     Therefore, the total runtime is $O(n \cdot logn)$
+
+    The space complexity is $O(3n) \in O(n)$: There is a constant amount of data stored for each of the $n$ items.
 
 \end{enumerate}
 
