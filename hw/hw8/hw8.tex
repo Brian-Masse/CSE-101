@@ -1,0 +1,202 @@
+\documentclass[12pt, letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage[left=0.6in, right=0.6in, top=1in, bottom=1in]{geometry}
+
+% for code snippets
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+
+% for math and pseudocode
+\usepackage{amsmath, amssymb} 
+\usepackage{algorithm} 
+\usepackage{algpseudocode} 
+
+\definecolor{dkgreen}{rgb}{0.5,0.65,0.5}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{code_blue}{rgb}{0.10,0.27,0.92}
+\definecolor{str_red}{rgb}{0.87,0.2,0.14}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{code_blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{str_red},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\title{CSE 101 Homework 8}
+\author{Brian Masse, Taira Sakamoto, Emily Xie, Annabelle Coles}
+\date{December 5, 2025}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\begin{enumerate}
+
+% MARK: Question 1
+\newpage
+\item \textbf{Verifying Heap}
+
+A \emph{3-ary heap} is like a binary heap, except that every internal vertex has three children: \emph{left}, \emph{middle} and \emph{right}. We will use $v.\mbox{left}$, $v.\mbox{mid}$, and $v.\mbox{right}$ to denote the three children. We let $v.\mbox{value}$ denote the value stored at $v$. We consider only the case of complete trees,  so all three sub-trees rooted at the three children will have the same size.  
+
+Here's an algorithm that verifies whether a balanced complete $3$-ary tree
+has the min-heap property.
+
+{\bf IsHeap}($r$ : root of 3-ary heap $H$)
+\begin{itemize}
+\item IF $r$ is a leaf: return {\tt true} 
+\item IF $r.\mbox{value} > r.\mbox{left}.\mbox{value}$ return {\tt false}
+\item IF $r.\mbox{value} > r.\mbox{mid}.\mbox{value}$ return {\tt false}
+\item IF $r.\mbox{value} > r.\mbox{right}.\mbox{value}$ return {\tt false}
+\item IF $\mbox{IsHeap}[r.\mbox{left}]==\mbox{\tt false}$ return {\tt false}
+\item IF $\mbox{IsHeap}[r.\mbox{mid}]==\mbox{\tt false}$ return {\tt false}
+\item IF $\mbox{IsHeap}[r.\mbox{right}]==\mbox{\tt false}$ return {\tt false}
+\item Return {\tt true}
+\end{itemize}
+
+
+\begin{enumerate}
+\item[(a)] Give a recurrence for the time taken by IsHeap in 
+terms of the total size, $n$, of the heap rooted at $r$.  Explain your answer.
+
+\item[(b)] Give a time analysis for IsHeap by solving this 
+recurrence, up to order.  If you use the Master Theorem, be sure to give the
+values of the three parameters used, and the case it falls under.
+\end{enumerate}
+
+% MARK: Question 2
+\newpage
+\item \textbf{Median of Sorted Lists}
+
+The following algorithm finds the median ($n$th smallest element) of two sorted lists of distinct integers, $A[1...n]$ and $B[1..n]$. For simplicity, we assume $n=2^k$ is a power of $2$.
+
+MedianSorted(A[1..n],B[1..n])
+\begin{enumerate} 
+
+\item IF $n=1$ THEN Return $min (A[1], B[1])$. 
+\item IF $A[n/2] < B[n/2+1]$ 
+\item ~~~~~THEN Return $MedianSorted(A[n/2+1..n], B[1..n/2])$.  
+\item IF $A[n/2] > B[n/2+1]$ 
+\item ~~~~~ THEN Return $MedianSorted(A[1..n/2], B[n/2+1..n])$.  
+\item IF $A[n/2] = B[n/2+1]$ 
+\item ~~~~~ THEN Return $A[n/2]$.
+\end{enumerate}
+
+Questions
+
+\begin{enumerate}
+\item Give a recurrence for the worst-case  time taken by MedianSorted in 
+terms of $n$. Explain your answer.
+
+\item Give a time analysis for MedianSorted by solving this recurrence, up to order.  If you use the Master Theorem, be sure to give the values of the three parameters used, and the case it falls under.
+\end{enumerate}
+
+% MARK: Question 3
+\newpage
+\item \textbf{Taxi Stand}
+
+At a taxi stand, there is a line of customers $C_1,..C_n$ and a line of taxis, $T_1,...T_m$. Since taxis are licensed to drive in some towns but not others, each can serve some of the customers but not others. We need to assign each customer to a taxi, and the assigned taxis need to be in order, but not all taxis need to be assigned. We want to minimize the position of the last taxi to be assigned.
+
+For example, if we have three customers $A,B,C$ and four taxis, $1,2,3,4$ where $1$ can serve $A$ and $C$, 2 can serve $A$ and $C$, $3$ can serve $B$ and $C$, and $4$ can serve $B$ and $C$, we could assign $A$ to taxi $2$, $B$ to taxi $3$ and $C$ to taxi $4$.  
+
+\begin{enumerate}
+\item Fill out the rest of the problem specification with mathematical expressions clearly defining the constraints and objective:
+
+\begin{itemize}
+\item Instance: Bipartite graph $G$ whose left vertices represent customers and right vertices represent taxis, and an edge $(C,t)$ represents taxi $t$ being able to serve  customer $C$, with orderings $C_1...C_n$ and $t_1..t_m$ on the two sets of vertices, with $m >n$.
+
+\item Solution Format: A list of taxis $i_1,i_2,..i_n$, with taxi $i_j$ assigned to customer $j$.
+
+\item Constraints:  Each customer must be assigned to a taxi that can drive them to their destination, i.e, (fill in) for every $1 \le j \le n$.  And  each customer must be assigned to a later taxi than the previous customer, i.e., (fill in)
+\item Objective:  (fill in)
+\end{itemize}
+
+
+\item Give a high level greedy strategy that solves this problem.
+Describe your strategy in words, don't give complete pseudo-code here.
+
+\item Illustrate your strategy on the example given in the problem.
+
+\item Prove your strategy finds the optimal solution, using any technique we've learned.  You can state and prove the main lemmas rather than give the complete proof, such as stating and proving a modify-the-solution lemma but skipping the induction argument. 
+
+\end{enumerate}
+
+% MARK: Question 4
+\newpage
+\item \textbf{Maximizing inner product}
+
+Say we are given two sequences of integers $x_1,..x_n; y_1,..y_m$ with $m \ge n$.  We want to find a subsequence of $y_1,..y_m$ of length $n$ , $y_{i_1} , y_{i_2},..y_{i_n}$ with $1 \le i_1 < i_2 <...< i_n \le m$ that maximizes the {\em inner product} $\sum_{1 \le j \le n} x_j * y_{i_j}$.  
+
+For example, if $x$ is $3,2,4$ and $y$ is $5,6, 1,2, 8$, the optimal subsequence
+is $5,6,8$ giving objective $3*5+2*6+4*8= 59 $.  
+   
+Here's a recursive algorithm to find the maximum inner product with a subsequence:
+
+MIPWS($x_1,..x_n; y_1,..y_m)$
+\begin{itemize}
+\item IF $n=0$ THEN return $0$
+\item IF $n=m$ THEN return 
+$x1*y_1 + MIPWS(x_2,..x_n;y_2..y_m)$ 
+\item Return $max 
+(x1*y_1 + MIPWS(x_2,..x_n;y_2..y_m), MIPWS(x_1..x_n;y_2...y_m)$. 
+\end{itemize}
+
+Questions
+
+\begin{enumerate}
+\item Show the tree of recursive calls this algorithm makes on the above example.   (You can either draw the tree, or list the recursive calls, using indentation to indicate nesting. You can use abbreviations like $2-4,2-5$ to mean calling the algorithm on $x_2..x_4; y_2..y_5$)
+
+\-\
+\item Give a recurrence for the total number of recursive calls this algorithm makes, in terms of $n'=n+m$.
+
+\-\ \newline
+In the rest of this part, you will give a dynamic programming algorithm
+for this problem.  Your algorithm can be based on the above recursion, or
+some other case analysis.
+
+\-\
+\item Describe precisely the sub-problems that your dynamic programming
+algorithm solves.  
+Define an array or matrix to hold these answers.
+
+\-\
+\item Describe the base cases in terms of your array or matrix.
+
+\-\
+\item Give a formula or pseudo-code saying how you compute
+larger sub-problems in terms of smaller sub-problems.  
+
+\-\
+\item Explain the case-analysis that justifies the previous step.
+
+\-\
+\item Assemble the parts above into a dynamic programming algorithm,
+described in pseudocode. Be sure to specify the order in which sub-problems are solved, and what the final output is.
+
+\-\
+\item Give a time analysis for your dynamic programming algorithm
+in terms of $n$. 
+
+\-\
+\item Show the array or matrix your algorithm produces on the
+example above.
+
+\end{enumerate}
+
+\end{enumerate}
+\end{document}
+
