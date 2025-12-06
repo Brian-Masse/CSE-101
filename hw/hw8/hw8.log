@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 DEC 2025 22:02
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  5 DEC 2025 22:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -323,26 +323,42 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 [3]
 
 [4]
+<src/Q4A-recursive-tree.png, id=27, 1304.875pt x 453.695pt>
+File: src/Q4A-recursive-tree.png Graphic file (type png)
+<use src/Q4A-recursive-tree.png>
+Package pdftex.def Info: src/Q4A-recursive-tree.png  used on input line 200.
+(pdftex.def)             Requested size: 456.71309pt x 158.79562pt.
 
-[5] (./hw8.aux)
+
+[5 <./src/Q4A-recursive-tree.png>]
+
+[6]
+<src/Q4I-output-MIP-matrix.png, id=38, 803.0pt x 159.59625pt>
+File: src/Q4I-output-MIP-matrix.png Graphic file (type png)
+<use src/Q4I-output-MIP-matrix.png>
+Package pdftex.def Info: src/Q4I-output-MIP-matrix.png  used on input line 271.
+(pdftex.def)             Requested size: 361.34666pt x 71.81763pt.
+
+
+[7 <./src/Q4I-output-MIP-matrix.png>] (./hw8.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 5919 strings out of 474662
- 90511 string characters out of 5751110
- 672264 words of memory out of 5000000
- 28892 multiletter control sequences out of 15000+600000
+ 5935 strings out of 474662
+ 91054 string characters out of 5751110
+ 674264 words of memory out of 5000000
+ 28908 multiletter control sequences out of 15000+600000
  567540 words of font info for 70 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 70i,6n,79p,491b,277s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 70i,7n,79p,491b,366s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on hw8.pdf (5 pages, 149493 bytes).
+Output written on hw8.pdf (7 pages, 214678 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
- 55 compressed objects within 1 object stream
+ 104 PDF objects out of 1000 (max. 8388607)
+ 62 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
