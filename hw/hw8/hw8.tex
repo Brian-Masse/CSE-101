@@ -121,15 +121,19 @@ For example, if we have three customers $A,B,C$ and four taxis, $1,2,3,4$ where 
 
 \item Solution Format: A list of taxis $i_1,i_2,..i_n$, with taxi $i_j$ assigned to customer $j$.
 
-\item Constraints:  Each customer must be assigned to a taxi that can drive them to their destination, i.e, (fill in) for every $1 \le j \le n$.  And  each customer must be assigned to a later taxi than the previous customer, i.e., (fill in)
-\item Objective:  (fill in)
+\item Constraints:  Each customer must be assigned to a taxi that can drive them to their destination, i.e, $\exists$ an edge $(j, i_j)$ for every $1 \le j \le n$.  And  each customer must be assigned to a later taxi than the previous customer, i.e., $i_j < i_{j+1}$
+\item Objective: Minimize the position of the last taxi, $i_j$
 \end{itemize}
 
-
+\-\
 \item Give a high level greedy strategy that solves this problem.
-Describe your strategy in words, don't give complete pseudo-code here.
 
+For custom $C_k$ choose the lowest taxi $T_j$ such that $\exists$ an edge $(C_k, T_j) \in G$ and the previously selected taxi, $i_{k-1} < T_j$. For the first customer, $C_1$, assign them the lowest taxi such that $(C_1, T_j)$ exists. 
+
+\-\
 \item Illustrate your strategy on the example given in the problem.
+
+
 
 \item Prove your strategy finds the optimal solution, using any technique we've learned.  You can state and prove the main lemmas rather than give the complete proof, such as stating and proving a modify-the-solution lemma but skipping the induction argument. 
 
