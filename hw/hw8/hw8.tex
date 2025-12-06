@@ -10,9 +10,9 @@
 \usepackage{graphicx}
 
 % for math and pseudocode
-\usepackage{amsmath, amssymb} 
-\usepackage{algorithm} 
-\usepackage{algpseudocode} 
+\usepackage{amsmath, amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \definecolor{dkgreen}{rgb}{0.5,0.65,0.5}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -73,9 +73,32 @@ has the min-heap property.
 \item[(a)] Give a recurrence for the time taken by IsHeap in 
 terms of the total size, $n$, of the heap rooted at $r$.  Explain your answer.
 
+The recurrence is: 
+\[ T(n) = 3T(n/3) + O(1) \]
+
+The algorithm performs a constant amount of work at the current node (checking if it is a leaf and performing 3 comparisons of values). It then makes recursive calls on the three children. Since the tree is a complete 3-ary tree, the problem size $n$ is split evenly among the three subtrees. Therefore, there are 3 recursive calls, each on an input of size approximately $n/3$.
+
 \item[(b)] Give a time analysis for IsHeap by solving this 
 recurrence, up to order.  If you use the Master Theorem, be sure to give the
 values of the three parameters used, and the case it falls under.
+
+Use the Master Theorem of the form $T(n) = aT(n/b) + f(n)$.
+
+The parameters are:
+\begin{itemize}
+    \item $a = 3$ (number of recursive subproblems)
+    \item $b = 3$ (factor by which the input size is reduced)
+    \item $f(n) = O(1)$ (cost of work outside the recursive calls)
+\end{itemize}
+
+Compare $f(n)$ to $n^{\log_b a}$:
+\[ \log_b a = \log_3 3 = 1 \]
+Therefore, comparing $f(n) = 1$ to $n^1$.
+
+Since $f(n) = O(n^{1 - \epsilon})$ (for any $0 < \epsilon \le 1$), this falls under case 1 of the Master Theorem.
+
+The complexity is:
+\[ T(n) = \Theta(n^{\log_b a}) = \Theta(n) \]
 \end{enumerate}
 
 % MARK: Question 2
@@ -199,4 +222,3 @@ example above.
 
 \end{enumerate}
 \end{document}
-
