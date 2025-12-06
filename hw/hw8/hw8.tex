@@ -10,9 +10,9 @@
 \usepackage{graphicx}
 
 % for math and pseudocode
-\usepackage{amsmath, amssymb} 
-\usepackage{algorithm} 
-\usepackage{algpseudocode} 
+\usepackage{amsmath, amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \definecolor{dkgreen}{rgb}{0.5,0.65,0.5}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -73,9 +73,32 @@ has the min-heap property.
 \item[(a)] Give a recurrence for the time taken by IsHeap in 
 terms of the total size, $n$, of the heap rooted at $r$.  Explain your answer.
 
+The recurrence is: 
+\[ T(n) = 3T(n/3) + O(1) \]
+
+The algorithm performs a constant amount of work at the current node (checking if it is a leaf and performing 3 comparisons of values). It then makes recursive calls on the three children. Since the tree is a complete 3-ary tree, the problem size $n$ is split evenly among the three subtrees. Therefore, there are 3 recursive calls, each on an input of size approximately $n/3$.
+
 \item[(b)] Give a time analysis for IsHeap by solving this 
 recurrence, up to order.  If you use the Master Theorem, be sure to give the
 values of the three parameters used, and the case it falls under.
+
+Use the Master Theorem of the form $T(n) = aT(n/b) + f(n)$.
+
+The parameters are:
+\begin{itemize}
+    \item $a = 3$ (number of recursive subproblems)
+    \item $b = 3$ (factor by which the input size is reduced)
+    \item $f(n) = O(1)$ (cost of work outside the recursive calls)
+\end{itemize}
+
+Compare $f(n)$ to $n^{\log_b a}$:
+\[ \log_b a = \log_3 3 = 1 \]
+Therefore, comparing $f(n) = 1$ to $n^1$.
+
+Since $f(n) = O(n^{1 - \epsilon})$ (for any $0 < \epsilon \le 1$), this falls under case 1 of the Master Theorem.
+
+The complexity is:
+\[ T(n) = \Theta(n^{\log_b a}) = \Theta(n) \]
 \end{enumerate}
 
 % MARK: Question 2
@@ -164,9 +187,13 @@ Questions
 \begin{enumerate}
 \item Show the tree of recursive calls this algorithm makes on the above example.   (You can either draw the tree, or list the recursive calls, using indentation to indicate nesting. You can use abbreviations like $2-4,2-5$ to mean calling the algorithm on $x_2..x_4; y_2..y_5$)
 
+\includegraphics[scale=0.35]{src/Q4A-recursive-tree.png}
+
 \-\
 \item Give a recurrence for the total number of recursive calls this algorithm makes, in terms of $n'=n+m$.
-
+\begin{itemize}
+    \item $T(n) = T(n' -2 )+ T(n' -1) + O(1)$
+\end{itemize}
 \-\ \newline
 In the rest of this part, you will give a dynamic programming algorithm
 for this problem.  Your algorithm can be based on the above recursion, or
@@ -177,30 +204,62 @@ some other case analysis.
 algorithm solves.  
 Define an array or matrix to hold these answers.
 
+The three subproblems are the function calls in lines two and three: 
+\begin{itemize}
+    \item $MIPWS(x_2,..x_n;y_2..y_m)$
+    \item $(x_1*y_1 + MIPWS(x_2,..x_n;y_2..y_m)$
+    \item $MIPWS(x_1..x_n;y_2...y_m)$
+\end{itemize}
+
+We will use a 2D matrix called MIP to store the outputs of the subproblems. The matrix will have dimensions $(n+1,m+1)$.
 \-\
 \item Describe the base cases in terms of your array or matrix.
-
+\begin{itemize}
+    \item The base case is when $n==0$ when the x array is empty. This refers to the $n+1$ row in the DP output matrix.
+\end{itemize}
 \-\
 \item Give a formula or pseudo-code saying how you compute
 larger sub-problems in terms of smaller sub-problems.  
+\begin{itemize}
+    \item Add previous subproblem output to the multiplication of the current elements and compare to other subproblem outputs.
+    \item Formula: $MIP[i+1][j+1] \leftarrow max(x[i]*y[j]+MIP[i][j], MIP[i][j+1], MIP[i+1][j]))$ 
+\end{itemize}
 
 \-\
 \item Explain the case-analysis that justifies the previous step.
-
+\begin{itemize}
+    \item In the base case, when the array is empty we get zero, which is a given.
+    \item By calculating the max of the subproblems, it is ensured that we find the maximum inner product.
+    \item Since we loop through all of the x-array and the y-array, we check all possible dot products of the elements.
+    \item Since we have already solved the subproblems for $i,j$ and we initialize the MIP matrix with zeros, we can always calculate $MIP[i+1][j+1]$. 
+\end{itemize}
 \-\
 \item Assemble the parts above into a dynamic programming algorithm,
 described in pseudocode. Be sure to specify the order in which sub-problems are solved, and what the final output is.
+s
+Replacing function calls with outputs from matrix:
+\begin{itemize}
+    \item $MIP \leftarrow [[0] * (nm1)] * (n +1)$
+    \item FOR $i=1$ to $n$ do:
+    \item ~~~FOR $j=1$ to $m$ do:
+    \item ~~~~~~$MIP[i+1][j+1] \leftarrow max(x[i]*y[j]+MIP[i][j], MIP[i][j+1], MIP[i+1][j])$ 
+    \item Return $MIP[n][m]$
+\end{itemize}
 
+We solve the subproblems in increasing order from $i=1$ to $i=n$. We fill the later $MIP[x_{i+1}][y_{j+1}]$ matrix entries using the outputs from the earlier subproblems where we found $MIP[x_i][y_j]$. The final output is the value stored at position $MIP[n][m]$, this is the maximum inner product. 
 \-\
 \item Give a time analysis for your dynamic programming algorithm
 in terms of $n$. 
-
+\begin{itemize}
+    \item For each index in the DP output array we need to do one addition and comparison. There are two nested for loops that will take $O(n\cdot m)$. Given $m \ge n$, in the worst case $m==n$ so $O(n\cdot m)= O(n^2)$
+\end{itemize}
 \-\
 \item Show the array or matrix your algorithm produces on the
 example above.
 
+
+\includegraphics[scale=0.45]{src/Q4I-output-MIP-matrix.png}
 \end{enumerate}
 
 \end{enumerate}
 \end{document}
-
