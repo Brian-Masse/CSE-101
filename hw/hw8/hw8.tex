@@ -105,47 +105,38 @@ The complexity is:
 \newpage
 \item \textbf{Median of Sorted Lists}
 
-The following algorithm finds the median ($n$th smallest element) of two sorted lists of distinct integers, $A[1...n]$ and $B[1..n]$. For simplicity, we assume $n=2^k$ is a power of $2$.
+The following algorithm finds the median ($n$th smallest element) of two sorted lists of distinct integers, $A[1..n]$ and $B[1..n]$. For simplicity, we assume $n=2^k$ is a power of $2$.
 
 MedianSorted(A[1..n],B[1..n])
-\begin{enumerate} 
-
-\item IF $n=1$ THEN Return $min (A[1], B[1])$. 
-\item IF $A[n/2] < B[n/2+1]$ 
-\item ~~~~~THEN Return $MedianSorted(A[n/2+1..n], B[1..n/2])$.  
-\item IF $A[n/2] > B[n/2+1]$ 
-\item ~~~~~ THEN Return $MedianSorted(A[1..n/2], B[n/2+1..n])$.  
-\item IF $A[n/2] = B[n/2+1]$ 
+\begin{enumerate}
+\item IF $n=1$ THEN Return $\min(A[1], B[1])$.
+\item IF $A[n/2] < B[n/2+1]$
+\item ~~~~~ THEN Return $\text{MedianSorted}(A[n/2+1..n], B[1..n/2])$.
+\item IF $A[n/2] > B[n/2+1]$
+\item ~~~~~ THEN Return $\text{MedianSorted}(A[1..n/2], B[n/2+1..n])$.
+\item IF $A[n/2] = B[n/2+1]$
 \item ~~~~~ THEN Return $A[n/2]$.
 \end{enumerate}
 
-Questions
-
 \begin{enumerate}
-\item Give a recurrence for the worst-case  time taken by MedianSorted in 
-terms of $n$. Explain your answer.
-
-\item Give a time analysis for MedianSorted by solving this recurrence, up to order.  If you use the Master Theorem, be sure to give the values of the three parameters used, and the case it falls under.
-\end{enumerate}
-
-\textbf{(a) Recurrence for the worst--case time}
+\item[(a)] \textbf{Recurrence for the worst--case time}
 
 Let $T(n)$ denote the worst--case running time of \textsc{MedianSorted} on two sorted lists of length $n$.
 
-In every call with $n>1$, the algorithm performs a constant amount of work (a few comparisons and index checks), which takes $\Theta(1)$ time, and then makes \emph{exactly one} recursive call on subarrays of size $n/2$ (lines 3 or 5).  
+In every call with $n > 1$, the algorithm performs a constant amount of work (comparisons and index checks), which takes $\Theta(1)$ time, and then makes \emph{exactly one} recursive call on two subarrays of size $n/2$ (line 3 or line 5).  
+
 Thus, the recurrence is:
 \[
-T(n) = T\left(\frac{n}{2}\right) + \Theta(1), \qquad T(1)=\Theta(1).
+T(n) = T\!\left(\frac{n}{2}\right) + \Theta(1), \qquad T(1)=\Theta(1).
 \]
 
-
-\textbf{(b) Solving the recurrence}
+\item[(b)] \textbf{Solving the recurrence}
 
 We apply the Master Theorem to the recurrence:
 \[
 T(n) = a\,T\!\left(\frac{n}{b}\right) + f(n),
 \]
-where
+with parameters:
 \[
 a = 1,\qquad b = 2,\qquad f(n)=\Theta(1).
 \]
@@ -169,8 +160,7 @@ T(n) = \Theta\!\left(n^{\log_b a}\log n\right)
 \]
 
 Thus, \textsc{MedianSorted} runs in $\Theta(\log n)$ time.
-
-
+\end{enumerate}
 % MARK: Question 3
 \newpage
 \item \textbf{Taxi Stand}
