@@ -105,6 +105,49 @@ terms of $n$. Explain your answer.
 \item Give a time analysis for MedianSorted by solving this recurrence, up to order.  If you use the Master Theorem, be sure to give the values of the three parameters used, and the case it falls under.
 \end{enumerate}
 
+\textbf{(a) Recurrence for the worst--case time}
+
+Let $T(n)$ denote the worst--case running time of \textsc{MedianSorted} on two sorted lists of length $n$.
+
+In every call with $n>1$, the algorithm performs a constant amount of work (a few comparisons and index checks), which takes $\Theta(1)$ time, and then makes \emph{exactly one} recursive call on subarrays of size $n/2$ (lines 3 or 5).  
+Thus, the recurrence is:
+\[
+T(n) = T\left(\frac{n}{2}\right) + \Theta(1), \qquad T(1)=\Theta(1).
+\]
+
+
+\textbf{(b) Solving the recurrence}
+
+We apply the Master Theorem to the recurrence:
+\[
+T(n) = a\,T\!\left(\frac{n}{b}\right) + f(n),
+\]
+where
+\[
+a = 1,\qquad b = 2,\qquad f(n)=\Theta(1).
+\]
+
+Compute the critical exponent:
+\[
+n^{\log_b a} = n^{\log_2 1} = n^0 = 1 = \Theta(1).
+\]
+
+Since 
+\[
+f(n)=\Theta(1)=\Theta\!\left(n^{\log_b a}\right),
+\]
+this falls under \textbf{Case 2} of the Master Theorem.
+
+Therefore,
+\[
+T(n) = \Theta\!\left(n^{\log_b a}\log n\right)
+      = \Theta(1 \cdot \log n)
+      = \Theta(\log n).
+\]
+
+Thus, \textsc{MedianSorted} runs in $\Theta(\log n)$ time.
+
+
 % MARK: Question 3
 \newpage
 \item \textbf{Taxi Stand}
